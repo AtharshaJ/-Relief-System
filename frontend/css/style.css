@@ -20,9 +20,7 @@
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background:
-        radial-gradient(ellipse at top right, #dbeafe 0%, transparent 45%),
-        var(--background);
+    background: radial-gradient(ellipse at top right, #dbeafe 0%, transparent 45%), var(--background);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
@@ -34,17 +32,21 @@ body {
     color: var(--white);
     padding: 22px 6%;
     box-shadow: 0 4px 20px rgba(30, 64, 175, 0.18);
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar h2 {
     font-size: 23px;
     font-weight: 700;
     letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
 }
 
 .navbar h2::before {
-    content: "✦";
+    content: "🏫";
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,55 +57,39 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     font-size: 21px;
-    vertical-align: middle;
 }
 
-/* ===== Main Container ===== */
+/* ===== Containers & Cards ===== */
 .container {
     width: 90%;
     max-width: 680px;
-    margin: 65px auto;
+    margin: 45px auto;
 }
 
-/* ===== Application Card ===== */
 .card {
     position: relative;
     background: var(--white);
     padding: 38px;
     border: 1px solid rgba(219, 228, 240, 0.9);
     border-radius: 22px;
-    box-shadow:
-        0 20px 50px rgba(30, 64, 175, 0.08),
-        0 3px 10px rgba(15, 23, 42, 0.03);
-    overflow: hidden;
-    animation: appear 0.55s ease-out;
+    box-shadow: 0 20px 50px rgba(30, 64, 175, 0.08), 0 3px 10px rgba(15, 23, 42, 0.03);
 }
 
 .card::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 5px;
     background: linear-gradient(90deg, #2563eb, #60a5fa, #93c5fd);
-}
-
-.card h2 {
-    color: var(--navy);
-    font-size: 28px;
-    line-height: 1.3;
-    margin-bottom: 10px;
-    letter-spacing: -0.5px;
 }
 
 .intro {
     color: var(--muted);
     font-size: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
-/* ===== Form Labels ===== */
+/* ===== Form Controls ===== */
 label {
     display: block;
     color: #334155;
@@ -112,10 +98,7 @@ label {
     margin-bottom: 8px;
 }
 
-/* ===== Form Fields ===== */
-input,
-select,
-textarea {
+input, select, textarea {
     display: block;
     width: 100%;
     padding: 13px 15px;
@@ -126,26 +109,9 @@ textarea {
     color: var(--text);
     font-family: inherit;
     font-size: 15px;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
 }
 
-input::placeholder,
-textarea::placeholder {
-    color: #94a3b8;
-}
-
-input:hover,
-select:hover,
-textarea:hover {
-    border-color: #93b4f8;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
+input:focus, select:focus, textarea:focus {
     outline: none;
     background: var(--white);
     border-color: var(--primary);
@@ -157,7 +123,6 @@ textarea {
     resize: vertical;
 }
 
-/* ===== Submit Button ===== */
 button {
     display: block;
     width: 100%;
@@ -166,562 +131,110 @@ button {
     border-radius: 10px;
     background: linear-gradient(120deg, #2563eb, #1d4ed8);
     color: var(--white);
-    font-family: inherit;
     font-size: 15px;
     font-weight: 700;
-    letter-spacing: 0.2px;
     cursor: pointer;
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.23);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-    background: linear-gradient(120deg, #1d4ed8, #1e40af);
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.3);
 }
 
-button:active {
-    transform: translateY(0);
-}
-
-button:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* ===== Success and Error Messages ===== */
-#message {
-    margin-top: 20px;
-    padding: 0;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    overflow-wrap: anywhere;
-}
-
+/* ===== Tables & Messages ===== */
 #message:not(:empty) {
+    margin-top: 20px;
     padding: 12px 15px;
     background: #f0fdf4;
     border: 1px solid #bbf7d0;
     color: var(--success);
+    border-radius: 10px;
+    font-weight: 600;
 }
 
-/* ===== Tables (for future pages) ===== */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+/* ===== Principal Approval Panel Styles ===== */
+.page-header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-table th,
-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #e8eef6;
-    text-align: left;
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
 }
 
-table th {
-    background: #eff6ff;
-    color: var(--navy);
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.filter {
+    background: #eef3ff;
+    color: #1f3c88;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    width: auto;
+    box-shadow: none;
 }
 
-table tr:last-child td {
-    border-bottom: none;
+.filter.active {
+    background: #1f3c88;
+    color: white;
 }
 
-table tbody tr:hover {
-    background: #f8fbff;
+.leave-list {
+    display: grid;
+    gap: 16px;
 }
 
-/* ===== Entrance Animation ===== */
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===== Tablet and Mobile ===== */
-@media (max-width: 600px) {
-    .navbar {
-        padding: 18px 5%;
-    }
-
-    .navbar h2 {
-        font-size: 19px;
-    }
-
-    .navbar h2::before {
-        width: 32px;
-        height: 32px;
-        margin-right: 8px;
-        border-radius: 9px;
-    }
-
-    .container {
-        width: 92%;
-        margin: 35px auto;
-    }
-
-    .card {
-        padding: 26px 20px;
-        border-radius: 16px;
-    }
-
-    .card h2 {
-        font-size: 23px;
-    }
-
-    .intro {
-        margin-bottom: 24px;
-    }
-
-    input,
-    select,
-    textarea {
-        padding: 12px;
-    }
-
-    table th,
-    table td {
-        padding: 10px;
-        font-size: 13px;
-    }
-}
-
-/* ===== Reduced Motion Accessibility ===== */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ==========================
-   Principal Leave Approval
-========================== */
-
-.page-header{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.page-header h1{
-    color:#1f3c88;
-    margin-bottom:5px;
-}
-
-.page-header p{
-    color:#666;
-}
-
-.filter-buttons{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin-bottom:25px;
-    flex-wrap:wrap;
-}
-
-.filter{
-    background:#eef3ff;
-    color:#1f3c88;
-    border:none;
-    padding:10px 22px;
-    border-radius:30px;
-    cursor:pointer;
-    transition:0.3s;
-    font-weight:600;
-}
-
-.filter:hover{
-    background:#d6e4ff;
-}
-
-.filter.active{
-    background:#1f3c88;
-    color:white;
-}
-
-.leave-list{
-    display:grid;
-    gap:18px;
-}
-
-.leave-card{
-    background:white;
-    border-radius:16px;
-    padding:22px;
-    box-shadow:0 8px 22px rgba(0,0,0,.08);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    transition:.25s;
-}
-
-.leave-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 28px rgba(0,0,0,.12);
-}
-
-.leave-info h3{
-    color:#1f3c88;
-    margin-bottom:10px;
-}
-
-.leave-info p{
-    margin:6px 0;
-    color:#555;
-}
-
-.actions{
-    display:flex;
-    gap:12px;
-    margin-top:15px;
-}
-
-.approve-btn,
-.reject-btn{
-    border:none;
-    padding:10px 18px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    transition:.3s;
-}
-
-.approve-btn{
-    background:#2e7d32;
-    color:white;
-}
-
-.approve-btn:hover{
-    background:#1b5e20;
-}
-
-.reject-btn{
-    background:#d32f2f;
-    color:white;
-}
-
-.reject-btn:hover{
-    background:#b71c1c;
-}
-
-.status{
-    padding:4px 10px;
-    border-radius:20px;
-    font-size:.9rem;
-    font-weight:bold;
-}
-
-.status.pending{
-    background:#fff3cd;
-    color:#856404;
-}
-
-.status.approved{
-    background:#d4edda;
-    color:#155724;
-}
-
-.status.rejected{
-    background:#f8d7da;
-    color:#721c24;
-}
-
-@media(max-width:768px){
-
-    .leave-card{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .actions{
-        width:100%;
-    }
-
-    .approve-btn,
-    .reject-btn{
-        flex:1;
-    }
-
-}
-/* Clickable summary header */
-.leave-summary {
+.leave-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
-    width: 100%;
+    flex-wrap: wrap;
 }
 
-.leave-summary h3 {
-    margin: 0;
-    color: #1f3c88;
-    font-size: 1.1rem;
+.leave-info h3 {
+    color: var(--navy);
+    margin-bottom: 6px;
 }
 
-/* Expanded details section */
-.leave-details {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+.leave-info p {
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 14px;
 }
 
-.leave-details p {
-    margin: 6px 0;
-    color: #555;
-}
-
-/* Free Teacher Dashboard */
-
-.availability-page {
-  width: min(1180px, 94%);
-  margin: 36px auto;
-  color: var(--text);
-}
-
-.availability-header {
-  padding: 28px;
-  margin-bottom: 24px;
-  border-radius: 20px;
-  color: white;
-  background: linear-gradient(135deg, #173b67, #27865b);
-}
-
-.availability-header h1 {
-  margin: 8px 0;
-  font-size: clamp(1.7rem, 4vw, 2.5rem);
-}
-
-.availability-header p {
-  margin-bottom: 0;
-}
-
-.eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-.availability-panel {
-  padding: 24px;
-  border: 1px solid #e1e7ee;
-  border-radius: 20px;
-  background: var(--card-bg, #ffffff);
-  box-shadow: 0 8px 28px rgb(26 45 75 / 7%);
-}
-
-.date-heading,
-.period-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.date-heading h2 {
-  margin-bottom: 6px;
-}
-
-.date-heading p {
-  margin-top: 0;
-  color: #718096;
-}
-
-#today-button {
-  padding: 10px 18px;
-  border: 0;
-  border-radius: 10px;
-  color: white;
-  background: #246b50;
-  cursor: pointer;
-}
-
-.workday-navigation {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
-  margin: 22px 0;
-}
-
-.workday-button {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  padding: 14px 6px;
-  border: 1px solid #e1e7ee;
-  border-radius: 12px;
-  color: inherit;
-  background: #f8fafc;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s,
-    transform 0.2s;
-}
-
-.workday-button:hover {
-  transform: translateY(-2px);
-  border-color: #27865b;
-}
-
-.workday-button.active {
-  color: #155d3c;
-  border-color: #27865b;
-  background: #e5f5eb;
-  box-shadow: inset 0 0 0 1px #27865b;
-}
-
-#availability-message {
-  margin: 18px 0;
-  color: #526176;
-  font-size: 0.92rem;
-}
-
-.period-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.period-card {
-  min-width: 0;
-  padding: 20px;
-  border: 1px solid #e1e7ee;
-  border-radius: 16px;
-  background: var(--white);
-}
-
-.period-heading {
-  padding-bottom: 12px;
-  background: var(--white);
-}
-
-.period-heading h3 {
-  margin: 0;
-  font-size: 1.15rem;
-}
-
-.period-count {
-  padding: 6px 10px;
-  border-radius: 20px;
-  color: #176441;
-  background: #e5f5eb;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.period-card h4 {
-  margin: 18px 0 10px;
-}
-
-.period-card ul {
-  padding-left: 20px;
-}
-
-.period-card li {
-  margin: 8px 0;
-  line-height: 1.5;
-}
-
-.teacher-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.teacher-chip {
-  display: inline-block;
-  padding: 8px 12px;
-  border: 1px solid #cde9d8;
-  border-radius: 20px;
-  color: #205c40;
-  background: #eff9f2;
-  font-size: 0.88rem;
-}
-
-.empty-message {
-  color: #718096;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 700px) {
-  .availability-page {
-    margin: 18px auto;
-  }
-
-  .availability-panel {
-    padding: 16px;
-  }
-
-  .workday-navigation {
-    gap: 5px;
-  }
-
-  .workday-button {
-    padding: 12px 2px;
-    font-size: 0.8rem;
-  }
-
-  .period-list {
-    grid-template-columns: 1fr;
-  }
-}
-/* Free Teacher Dashboard - Button Overrides */
-
-.workday-navigation button {
+.actions {
     display: flex;
-    width: 100%;
-    margin: 0;
-    box-shadow: none;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.workday-navigation button:hover {
-    box-shadow: none;
-}
-
-#today-button {
-    display: inline-block;
+.approve-btn, .reject-btn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
     width: auto;
-    margin: 0;
     box-shadow: none;
 }
 
-#today-button:hover {
-    box-shadow: none;
-}
+.approve-btn { background: var(--success); color: white; }
+.reject-btn { background: var(--danger); color: white; }
 
-.availability-page button:focus-visible {
-    outline: 3px solid #60a5fa;
-    outline-offset: 3px;
-}
-/* ===== Free Teacher Dashboard Styles ===== */
-
+/* ===== Free Teacher Dashboard Specifics ===== */
 .availability-page {
   width: min(1180px, 94%);
-  margin: 36px auto;
+  margin: 40px auto; /* Increased top/bottom margin from 36px to 40px */
+  padding-top: 20px;  /* Adds safe spacing below the navbar */
   color: var(--text, #243047);
 }
 
@@ -738,10 +251,6 @@ table tbody tr:hover {
   font-size: clamp(1.7rem, 4vw, 2.5rem);
 }
 
-.availability-header p {
-  margin-bottom: 0;
-}
-
 .eyebrow {
   font-size: 0.75rem;
   font-weight: 700;
@@ -750,46 +259,25 @@ table tbody tr:hover {
 
 .availability-panel {
   padding: 24px;
-  border: 1px solid var(--border, #e1e7ee);
+  border: 1px solid var(--border);
   border-radius: 20px;
-  background: var(--white, #ffffff);
+  background: var(--white);
   box-shadow: 0 8px 28px rgb(26 45 75 / 7%);
 }
 
-.date-heading,
-.period-heading {
+.date-heading, .period-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.date-heading h2 {
-  margin-bottom: 6px;
-  color: var(--navy, #172554);
-}
-
-.date-heading p {
-  margin-top: 0;
-  color: var(--muted, #718096);
-}
-
 #today-button {
   display: inline-block;
   width: auto;
-  margin: 0;
   padding: 10px 18px;
-  border: 0;
-  border-radius: 10px;
-  color: white;
   background: #246b50;
-  cursor: pointer;
   box-shadow: none;
-}
-
-#today-button:hover {
-  box-shadow: none;
-  background: #1b523d;
 }
 
 .workday-navigation {
@@ -802,22 +290,13 @@ table tbody tr:hover {
 .workday-button {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   align-items: center;
   width: 100%;
-  padding: 14px 6px;
-  border: 1px solid var(--border, #e1e7ee);
+  padding: 12px 6px;
+  border: 1px solid var(--border);
   border-radius: 12px;
-  color: inherit;
   background: #f8fafc;
   cursor: pointer;
-  box-shadow: none;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-}
-
-.workday-button:hover {
-  transform: translateY(-2px);
-  border-color: #27865b;
   box-shadow: none;
 }
 
@@ -825,70 +304,20 @@ table tbody tr:hover {
   color: #155d3c;
   border-color: #27865b;
   background: #e5f5eb;
-  box-shadow: inset 0 0 0 1px #27865b;
-}
-
-#availability-message {
-  margin: 18px 0;
-  color: #526176;
-  font-size: 0.92 rem;
 }
 
 .period-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
+  margin-top: 15px;
 }
 
 .period-card {
-  min-width: 0;
   padding: 20px;
-  border: 1px solid var(--border, #e1e7ee);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--white, #ffffff);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-}
-
-.period-heading {
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e9edf2;
-}
-
-.period-heading h3 {
-  margin: 0;
-  font-size: 1.15 rem;
-  color: var(--navy, #172554);
-}
-
-.period-count {
-  padding: 6px 10px;
-  border-radius: 20px;
-  color: #176441;
-  background: #e5f5eb;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.period-card h4 {
-  margin: 18px 0 10px;
-  font-size: 0.95rem;
-  color: #334155;
-}
-
-.period-card ul {
-  padding-left: 20px;
-}
-
-.period-card li {
-  margin: 8px 0;
-  line-height: 1.5;
-  font-size: 0.9rem;
-}
-
-.teacher-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  background: var(--white);
 }
 
 .teacher-chip {
@@ -900,31 +329,13 @@ table tbody tr:hover {
   background: #eff9f2;
   font-size: 0.85rem;
   font-weight: 600;
-}
-
-.empty-message {
-  color: var(--muted, #718096);
-  font-size: 0.9rem;
+  margin: 4px;
 }
 
 @media (max-width: 768px) {
-  .availability-page {
-    margin: 18px auto;
-  }
-
-  .availability-panel {
-    padding: 16px;
-  }
-
   .workday-navigation {
-    gap: 5px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-
-  .workday-button {
-    padding: 12px 2px;
-    font-size: 0.8rem;
-  }
-
   .period-list {
     grid-template-columns: 1fr;
   }
