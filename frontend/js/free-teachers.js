@@ -161,3 +161,46 @@ function resetToToday() {
 
 todayButton.addEventListener("click", resetToToday);
 resetToToday();
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadForm = document.getElementById('uploadForm');
+    
+    if (uploadForm) {
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Stop page from redirecting
+
+            const formData = new FormData(this);
+            const statusText = document.getElementById('uploadStatus');
+            
+            statusText.style.color = "blue";
+            statusText.textContent = "Uploading and parsing timetable...";
+
+            try {
+                const response = await fetch('/api/upload-timetable', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resultText = await response.text();
+
+                if (response.ok) {
+                    statusText.style.color = "green";
+                    statusText.textContent = resultText; 
+                    const activeWorkday = workdays.find(d => d.value === selectedDateValue);
+                    if (activeWorkday) {
+                        loadAvailability(activeWorkday);
+                    }
+                
+                    
+                    // Optional: Call your function to reload/refresh the availability UI here
+                    // e.g., loadAvailability(); 
+                } else {
+                    statusText.style.color = "red";
+                    statusText.textContent = "Error: " + resultText;
+                }
+            } catch (err) {
+                statusText.style.color = "red";
+                statusText.textContent = "Network error occurred.";
+            }
+        });
+    }
+});

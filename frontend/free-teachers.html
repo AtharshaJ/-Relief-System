@@ -10,8 +10,10 @@
 <body>
 
     <nav class="navbar">
+    <a href="static/home.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
         <h2>School Relief System</h2>
-    </nav>
+    </a>
+</nav>
 
     <main class="availability-page">
         <header class="availability-header">
@@ -40,7 +42,19 @@
             <div id="period-list" class="period-list">
                 <!-- Dynamically populated periods -->
             </div>
-        </section>
+            <article class="period-card">
+    <div class="period-heading">
+        <h3>Import Timetable</h3>
+    </div>
+    <form id="uploadForm" enctype="multipart/form-data" class="upload-form-inline">
+        <label for="timetableFile" style="font-size: 0.9rem; color: #475569;">Select aSc Timetables XML file:</label>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="file" id="timetableFile" name="timetable" accept=".xml" required style="flex: 1;">
+            <button type="submit" class="card-upload-btn">Import Timetable</button>
+        </div>
+    </form>
+    <p id="uploadStatus" style="font-weight: bold; margin-top: 10px; font-size: 0.9rem;"></p>
+</article>
     </main>
 
 </body>
