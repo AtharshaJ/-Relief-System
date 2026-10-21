@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Relief System - Home</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --accent-color: #2a5298;
+            --hover-color: #162f59;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header / Hero Section */
+        header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content Container */
+        main {
+            max-width: 1000px;
+            margin: -3rem auto 3rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Navigation Cards */
+        .nav-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .nav-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid #e0e0e0;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏫 School Relief System</h1>
+        <p>Streamlining school administration, teacher replacements, and daily scheduling.</p>
+    </header>
+
+    <main>
+        <div class="card-grid">
+            <!-- Leave Application Card -->
+            <div class="nav-card">
+                <div>
+                    <h3>Leave Application</h3>
+                    <p>Submit your absence requests, view application status, and manage teacher leave schedules.</p>
+                </div>
+                <a href="../leave.html" class="btn">Apply for Leave</a>
+            </div>
+
+            <!-- Relief Page Card -->
+            <div class="nav-card">
+                <div>
+                    <h3>Relief Dashboard</h3>
+                    <p>View daily timetables, check free teachers, and manage active relief class assignments.</p>
+                </div>
+                <a href="../free-teachers.html" class="btn">View Relief Page</a>
+            </div>
+
+            <!-- Principal Login Card -->
+            <div class="nav-card">
+                <div>
+                    <h3>Principal Login</h3>
+                    <p>Administrative portal to review system logs, approve leaves, and oversee school-wide operations.</p>
+                </div>
+                <a href="principal-login.html" class="btn">Principal Login</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 School Relief System. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

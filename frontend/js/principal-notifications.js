@@ -31,20 +31,37 @@ async function loadLeaves(status) {
             
             const formattedDate = leave.leave_date ? leave.leave_date.split('T')[0] : "N/A";
 
+            const actionsHtml = leave.status === "Pending" ? `
+                <div class="actions">
+                    <button class="approve-btn" onclick="event.stopPropagation(); updateStatus(${leave.id}, 'Approved')">Approve</button>
+                    <button class="reject-btn" onclick="event.stopPropagation(); updateStatus(${leave.id}, 'Rejected')">Reject</button>
+                </div>
+            ` : '';
+
             card.innerHTML = `
-                <div class="leave-summary" onclick="toggleCard(this)">
+                <div class="leave-summary">
                     <h3 class="teacher-name">${leave.teacher_name}</h3>
                     <span class="status ${leave.status.toLowerCase()}">${leave.status}</span>
                 </div>
                 <div class="leave-details" style="display: none;">
                     <p><strong>Reason:</strong> ${leave.reason || "None"}</p>
                     <p><strong>Leave Date:</strong> ${formattedDate}</p>
-                    <div class="actions">
-                        <button class="approve-btn" onclick="updateStatus(${leave.id}, 'Approved')">Approve</button>
-                        <button class="reject-btn" onclick="updateStatus(${leave.id}, 'Rejected')">Reject</button>
-                    </div>
+                    ${actionsHtml}
                 </div>
             `;
+            
+
+    card.innerHTML = `
+        <div class="leave-summary" onclick="toggleCard(this)">
+            <h3 class="teacher-name">${leave.teacher_name}</h3>
+            <span class="status ${leave.status.toLowerCase()}">${leave.status}</span>
+        </div>
+        <div class="leave-details" style="display: none;">
+            <p><strong>Reason:</strong> ${leave.reason || "None"}</p>
+            <p><strong>Leave Date:</strong> ${formattedDate}</p>
+            ${actionsHtml}
+        </div>
+    `;
             container.appendChild(card);
         });
 

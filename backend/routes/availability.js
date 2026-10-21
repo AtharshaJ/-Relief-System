@@ -66,41 +66,140 @@ router.get("/availability", async (req, res) => {
         ].sort((a, b) => a - b);
 
         // 8. Calculate free teachers and relief needed per period
-        const periods = periodNumbers.map(periodNo => {
-            const periodLessons = lessons.filter(lesson => Number(lesson.period_no) === periodNo);
+       const periods = periodNumbers.map(periodNo => {
 
-            const scheduledTeacherNames = new Set(
-                periodLessons.map(lesson => normalizeName(lesson.teacher_name))
+    const periodLessons = lessons.filter(
+        lesson => Number(lesson.period_no) === periodNo
+    );
+
+    const scheduledTeacherNames = new Set(
+        periodLessons.map(
+            lesson => normalizeName(lesson.teacher_name)
+        )
+    );
+
+    // Free teachers for this period
+    const freeTeachers = teachers.filter(teacher => {
+        const isAbsent = absentTeacherIds.has(
+            String(teacher.teacher_id)
+        );
+
+        const isTeaching = scheduledTeacherNames.has(
+            normalizeName(teacher.name)
+        );
+
+        return !isAbsent && !isTeaching;
+    });
+
+    // Lessons requiring relief
+    const reliefNeeded = periodLessons.filter(lesson => {
+        const regularTeacher = teachers.find(
+            teacher =>
+                normalizeName(teacher.name) ===
+                normalizeName(lesson.teacher_name)
+        );
+
+        return (
+            regularTeacher &&
+            absentTeacherIds.has(
+                String(regularTeacher.teacher_id)
+            )
+        );
+    });
+
+    // Skip periods that don't need relief
+    if (reliefNeeded.length === 0) {
+        return null;
+    }
+
+    const usedTeachers = new Set();
+
+    const reliefAssignments = reliefNeeded.map(lesson => {
+
+        const availableTeachers = freeTeachers.filter(
+            teacher => !usedTeachers.has(teacher.teacher_id)
+        );
+
+        const scoredTeachers = availableTeachers.map(teacher => {
+
+            let score = 0;
+
+            // Priority 1: teaches same class
+            const teachesSameClass = lessons.some(l =>
+                normalizeName(l.teacher_name) ===
+                    normalizeName(teacher.name) &&
+                l.class_name === lesson.class_name
             );
 
-            // Free teachers: not absent and not currently teaching in this period
-            const freeTeachers = teachers.filter(teacher => {
-                const isAbsent = absentTeacherIds.has(String(teacher.teacher_id));
-                const isTeaching = scheduledTeacherNames.has(normalizeName(teacher.name));
-                return !isAbsent && !isTeaching;
-            });
+            if (teachesSameClass) {
+                score += 100;
+            }
 
-            // Relief needed: lessons whose regular teacher has an approved leave
-            const reliefNeeded = periodLessons.filter(lesson => {
-                const regularTeacher = teachers.find(
-                    teacher => normalizeName(teacher.name) === normalizeName(lesson.teacher_name)
-                );
-                return regularTeacher && absentTeacherIds.has(String(regularTeacher.teacher_id));
-            });
+            // Priority 2: teaches same subject
+            const teachesSameSubject = lessons.some(l =>
+                normalizeName(l.teacher_name) ===
+                    normalizeName(teacher.name) &&
+                l.subject_name === lesson.subject_name
+            );
+
+            if (teachesSameSubject) {
+                score += 50;
+            }
 
             return {
-                periodNo,
-                freeTeachers,
-                reliefNeeded
+                teacher,
+                score,
+                teachesSameClass,
+                teachesSameSubject
             };
         });
 
-        res.json({
+        scoredTeachers.sort((a, b) => b.score - a.score);
+
+        const bestMatch =
+            scoredTeachers.length > 0
+                ? scoredTeachers[0]
+                : null;
+
+        if (bestMatch) {
+            usedTeachers.add(
+                bestMatch.teacher.teacher_id
+            );
+        }
+
+        return {
+            class_name: lesson.class_name,
+            subject_name: lesson.subject_name,
+            absent_teacher: lesson.teacher_name,
+
+            assigned_teacher: bestMatch
+                ? bestMatch.teacher.name
+                : null,
+
+            priority:
+                bestMatch?.teachesSameClass
+                    ? "Same Class"
+                    : bestMatch?.teachesSameSubject
+                    ? "Same Subject"
+                    : bestMatch
+                    ? "Any Available Teacher"
+                    : "No Teacher Available"
+        };
+    });
+
+    return {
+        periodNo,
+        reliefAssignments,
+        freeTeachers
+    };
+
+}).filter(Boolean);
+
+return res.json({
             date,
             dayName,
             periods
         });
-
     } catch (error) {
         console.error("Availability error:", error);
         res.status(500).json({ error: "Unable to load teacher availability." });

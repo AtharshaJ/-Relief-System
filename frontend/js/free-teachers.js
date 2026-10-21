@@ -89,14 +89,18 @@ function renderPeriods(periods) {
         addText(heading, "span", "period-count", `${period.freeTeachers.length} free`);
         card.appendChild(heading);
 
-        addText(card, "h4", "", `Lessons needing relief (${period.reliefNeeded.length})`);
-        if (period.reliefNeeded.length === 0) {
+        addText(card, "h4", "", `Relief Assignments (${period.reliefAssignments.length})`);
+        if (period.reliefAssignments.length === 0) {
             addText(card, "p", "empty-message", "No approved-absence lessons identified.");
         } else {
             const lessonList = document.createElement("ul");
-            period.reliefNeeded.forEach((lesson) => {
+            period.reliefAssignments.forEach((lesson) => {
                 const item = document.createElement("li");
-                item.textContent = `${lesson.class_name} — ${lesson.subject_name} (Absent teacher: ${lesson.teacher_name})`;
+                item.textContent =
+                        `${lesson.class_name} — ${lesson.subject_name}
+                        | Absent: ${lesson.absent_teacher}
+                        | Assigned: ${lesson.assigned_teacher ?? "None"}
+                        | Priority: ${lesson.priority}`;
                 lessonList.appendChild(item);
             });
             card.appendChild(lessonList);

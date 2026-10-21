@@ -1,9 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+const path=require('path');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+// Serve static files from the 'frontend' folder
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Explicitly route root URL to home.html (optional if express.static handles index.html by default)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/static/home.html'));
+});
 
 // Import routes
 const absenceRoutes = require("./routes/absenceRoutes");
