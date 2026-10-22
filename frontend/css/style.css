@@ -1,0 +1,405 @@
+/* ===== Global Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --navy: #172554;
+    --background: #f1f5fb;
+    --white: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #dbe4f0;
+    --success: #15803d;
+    --danger: #dc2626;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: radial-gradient(ellipse at top right, #dbeafe 0%, transparent 45%), var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* ===== Navigation Bar ===== */
+.navbar {
+    background: linear-gradient(120deg, #172554, #1e40af, #2563eb);
+    color: var(--white);
+    padding: 22px 6%;
+    box-shadow: 0 4px 20px rgba(30, 64, 175, 0.18);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar h2 {
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar h2::before {
+    content: "🏫";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 21px;
+}
+
+/* ===== Containers & Cards ===== */
+.container {
+    width: 90%;
+    max-width: 680px;
+    margin: 45px auto;
+}
+
+.card {
+    position: relative;
+    background: var(--white);
+    padding: 38px;
+    border: 1px solid rgba(219, 228, 240, 0.9);
+    border-radius: 22px;
+    box-shadow: 0 20px 50px rgba(30, 64, 175, 0.08), 0 3px 10px rgba(15, 23, 42, 0.03);
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #2563eb, #60a5fa, #93c5fd);
+}
+
+.intro {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+/* ===== Form Controls ===== */
+label {
+    display: block;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 650;
+    margin-bottom: 8px;
+}
+
+input, select, textarea {
+    display: block;
+    width: 100%;
+    padding: 13px 15px;
+    margin-bottom: 22px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #f8fafc;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    background: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+    min-height: 115px;
+    resize: vertical;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(120deg, #2563eb, #1d4ed8);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.23);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== Tables & Messages ===== */
+#message:not(:empty) {
+    margin-top: 20px;
+    padding: 12px 15px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: var(--success);
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* ===== Principal Approval Panel Styles ===== */
+.page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filter {
+    background: #eef3ff;
+    color: #1f3c88;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    width: auto;
+    box-shadow: none;
+}
+
+.filter.active {
+    background: #1f3c88;
+    color: white;
+}
+
+.leave-list {
+    display: grid;
+    gap: 16px;
+}
+
+.leave-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.leave-info h3 {
+    color: var(--navy);
+    margin-bottom: 6px;
+}
+
+.leave-info p {
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.approve-btn, .reject-btn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    width: auto;
+    box-shadow: none;
+}
+
+.approve-btn { background: var(--success); color: white; }
+.reject-btn { background: var(--danger); color: white; }
+
+/* ===== Free Teacher Dashboard Specifics ===== */
+.availability-page {
+  width: min(1180px, 94%);
+  margin: 40px auto; /* Increased top/bottom margin from 36px to 40px */
+  padding-top: 20px;  /* Adds safe spacing below the navbar */
+  color: var(--text, #243047);
+}
+
+.availability-header {
+  padding: 28px;
+  margin-bottom: 24px;
+  border-radius: 20px;
+  color: white;
+  background: linear-gradient(135deg, #173b67, #27865b);
+}
+
+.availability-header h1 {
+  margin: 8px 0;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.availability-panel {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 8px 28px rgb(26 45 75 / 7%);
+}
+
+.date-heading, .period-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#today-button {
+  display: inline-block;
+  width: auto;
+  padding: 10px 18px;
+  background: #246b50;
+  box-shadow: none;
+}
+
+.workday-navigation {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.workday-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 12px 6px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.workday-button.active {
+  color: #155d3c;
+  border-color: #27865b;
+  background: #e5f5eb;
+}
+
+.period-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 15px;
+}
+
+.period-card {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--white);
+}
+
+.teacher-chip {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #cde9d8;
+  border-radius: 20px;
+  color: #205c40;
+  background: #eff9f2;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 4px;
+}
+
+@media (max-width: 768px) {
+  .workday-navigation {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .period-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Constrains the width to match your period cards nicely */
+.upload-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.upload-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.upload-container input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Darker button styling with a smooth hover effect */
+.dark-upload-btn {
+    background-color: #1e293b; /* Dark slate color */
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dark-upload-btn:hover {
+    background-color: #0f172a; /* Even darker shade on hover */
+}
+
+.upload-form-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.card-upload-btn {
+    background-color: #1e293b; /* Dark slate matching your theme */
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.card-upload-btn:hover {
+    background-color: #0f172a;
+}
+.period-card, .import-card {
+    margin-bottom: 24px; /* Creates nice spacing between the cards */
+}

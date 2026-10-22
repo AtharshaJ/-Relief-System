@@ -1,0 +1,72 @@
+[
+    {
+        "class_name": "Gr 9",
+        "day_name": "Wednesday",
+        "period_no": 4,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "Gr 9",
+        "day_name": "Friday",
+        "period_no": 5,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "Gr 8",
+        "day_name": "Monday",
+        "period_no": 4,
+        "subject_name": "Religent",
+        "teacher_name": "Miss.K.Vasuki"
+    },
+    {
+        "class_name": "Gr 8",
+        "day_name": "Thursday",
+        "period_no": 3,
+        "subject_name": "Religent",
+        "teacher_name": "Miss.K.Vasuki"
+    },
+    {
+        "class_name": "Gr 8",
+        "day_name": "Monday",
+        "period_no": 3,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "Gr 8",
+        "day_name": "Wednesday",
+        "period_no": 3,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "GR 7",
+        "day_name": "Tuesday",
+        "period_no": 6,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "GR 7",
+        "day_name": "Thursday",
+        "period_no": 7,
+        "subject_name": "Health science",
+        "teacher_name": "Mr.Y.Sivakumar"
+    },
+    {
+        "class_name": "GR 7",
+        "day_name": "Monday",
+        "period_no": 6,
+        "subject_name": "Religent",
+        "teacher_name": "Miss.K.Vasuki"
+    },
+    {
+        "class_name": "GR 7",
+        "day_name": "Wednesday",
+        "period_no": 7,
+        "subject_name": "Religent",
+        "teacher_name": "Miss.K.Vasuki"
+    }
+]

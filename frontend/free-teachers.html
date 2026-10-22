@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Relief System - Free Teacher Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/free-teachers.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar">
+    <a href="static/home.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+        <h2>School Relief System</h2>
+    </a>
+</nav>
+
+    <main class="availability-page">
+        <header class="availability-header">
+            <div>
+                <p class="eyebrow">SCHOOL ADMINISTRATION</p>
+                <h1>Free Teacher Dashboard</h1>
+                <p>Find available teachers and lessons needing relief.</p>
+            </div>
+        </header>
+
+        <section class="availability-panel">
+            <div class="date-heading">
+                <div>
+                    <h2 id="selected-day">Loading date...</h2>
+                    <p id="selected-date"></p>
+                </div>
+                <button id="today-button" type="button">Today</button>
+            </div>
+
+            <nav id="workday-navigation" class="workday-navigation" aria-label="Choose a working day">
+                <!-- Dynamically populated 5 workdays -->
+            </nav>
+
+            <p id="availability-message" role="status" aria-live="polite">Loading availability...</p>
+
+            <div id="period-list" class="period-list">
+                <!-- Dynamically populated periods -->
+            </div>
+            <article class="period-card">
+    <div class="period-heading">
+        <h3>Import Timetable</h3>
+    </div>
+    <form id="uploadForm" enctype="multipart/form-data" class="upload-form-inline">
+        <label for="timetableFile" style="font-size: 0.9rem; color: #475569;">Select aSc Timetables XML file:</label>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <input type="file" id="timetableFile" name="timetable" accept=".xml" required style="flex: 1;">
+            <button type="submit" class="card-upload-btn">Import Timetable</button>
+        </div>
+    </form>
+    <p id="uploadStatus" style="font-weight: bold; margin-top: 10px; font-size: 0.9rem;"></p>
+</article>
+    </main>
+
+</body>
+</html>

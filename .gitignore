@@ -149,3 +149,42 @@ backend/.env
 
 # Turbo Repo
 .turbo
+
+# =========================
+# Python - Timetable Importer
+# =========================
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python environment files
+.python-version
+
+# Timetable importer generated output
+timetable-importer/output/
+
+# Extracted timetable data and database exports
+timetable-importer/*.csv
+timetable-importer/*.xlsx
+timetable-importer/*.json
+
+# Original timetable PDFs - keep private
+timetable-importer/input/*.pdf
+
+node_modules/
+.env
+*.log
+.DS_Store
+*.xml
