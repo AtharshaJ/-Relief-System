@@ -132,23 +132,36 @@ async function loadAvailability(day) {
     periodList.replaceChildren();
 
     try {
-        const response = await fetch(`http://localhost:5000/api/availability?date=${encodeURIComponent(day.value)}`);
+        const response = await fetch(
+            `/api/availability?date=${encodeURIComponent(day.value)}`
+        );
+
         const data = await response.json();
 
         if (!response.ok) {
             throw new Error(data.error || "Could not load availability.");
         }
 
+        if (!data.periods || data.periods.length === 0) {
+            message.textContent =
+                "✅ No relief assignments are required. All scheduled classes are covered.";
+            return;
+        }
+
         renderPeriods(data.periods);
-        message.textContent = data.message || `Showing timetable and availability for ${data.dayName}.`;
+
+        message.textContent =
+            `Showing relief allocations for ${day.dayName}.`;
+
     } catch (error) {
-        message.textContent = error.message === "Failed to fetch" 
-            ? "Cannot connect to the backend server." 
-            : error.message;
+        message.textContent =
+            error.message === "Failed to fetch"
+                ? "Cannot connect to the backend server."
+                : error.message;
+
         periodList.replaceChildren();
     }
 }
-
 function resetToToday() {
     workdays = getNextFiveWorkdays();
     selectedDateValue = localDateString(new Date());
