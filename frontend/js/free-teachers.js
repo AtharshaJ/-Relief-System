@@ -175,12 +175,12 @@ document.addEventListener('DOMContentLoaded', () => {
             statusText.textContent = "Uploading and parsing timetable...";
 
             try {
-                const response = await fetch('/api/upload-timetable', {
+                const response = await fetch('/api/timetable/import', {
                     method: 'POST',
                     body: formData
                 });
 
-                const resultText = await response.text();
+                const result = await response.json();
 
                 if (response.ok) {
                     statusText.style.color = "green";
@@ -195,7 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // e.g., loadAvailability(); 
                 } else {
                     statusText.style.color = "red";
-                    statusText.textContent = "Error: " + resultText;
+                    statusText.textContent = "Error: " + (result.message || result.error || "Unknown error");
+
                 }
             } catch (err) {
                 statusText.style.color = "red";

@@ -13,6 +13,8 @@ conn = psycopg2.connect(
     password="ENTC1716@j"
 )
 
+
+
 cursor = conn.cursor()
 
 # ===============================

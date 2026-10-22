@@ -1,22 +1,67 @@
 const express = require('express');
 const multer = require('multer');
+
+const {
+    importTimetableXML
+} = require('../services/timetableServices');
+
 const router = express.Router();
-const { importTimetableXML } = require('../services/timetableService');
 
-const upload = multer({ storage: multer.memoryStorage() });
+// Keep the uploaded XML in memory.
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 20 * 1024 * 1024 // 20 MB
+    },
+    fileFilter: (req, file, callback) => {
+        if (!file.originalname.toLowerCase().endsWith('.xml')) {
+            return callback(
+                new Error('Please upload an XML file.')
+            );
+        }
 
-router.post('/upload-timetable', upload.single('timetable'), async (req, res) => {
-    if (!req.file) {
-        return res.status(400).send("No XML file uploaded.");
+        callback(null, true);
     }
+});
 
-    try {
-        const rowCount = await importTimetableXML(req.file.buffer);
-        res.status(200).send(`Success! Replaced timetable with ${rowCount} rows.`);
-    } catch (err) {
-        console.error("Timetable import failed:", err);
-        res.status(500).send("Server error during timetable import.");
-    }
+// POST /api/timetable/import
+router.post('/import', (req, res, next) => {
+    upload.single('timetable')(req, res, async error => {
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please select an XML timetable file.'
+            });
+        }
+
+        try {
+            const result = await importTimetableXML(
+                req.file.buffer
+            );
+
+            return res.status(200).json({
+                success: true,
+                message: 'Timetable imported successfully.',
+                data: result
+            });
+
+        } catch (err) {
+            console.error('Timetable import failed:', err);
+
+            return res.status(500).json({
+                success: false,
+                message: 'Timetable import failed.',
+                error: err.message
+            });
+        }
+    });
 });
 
 module.exports = router;
