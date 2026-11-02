@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
+const { generateReliefForAbsence } =
+    require("../services/generateRelief");
+
 router.get("/leave", async (req, res) => {
     try {
         const status = req.query.status || "Pending";
@@ -43,6 +46,12 @@ router.put("/leave/:id", async (req, res) => {
             `UPDATE absences SET status = $1 WHERE id = $2 RETURNING *`,
             [status, id]
         );
+
+        const absence = result.rows[0];
+        if (status === "Approved") {
+            await generateReliefForAbsence(absence.id);
+        }
+
 
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Leave application not found." });
