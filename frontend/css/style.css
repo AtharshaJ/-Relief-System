@@ -1,4 +1,14 @@
-/* ===== Global Styles ===== */
+
+/* =====================================================
+   SCHOOL RELIEF TEACHER MANAGEMENT SYSTEM
+   Theme: Midnight Navy + Modern Teal
+===================================================== */
+
+
+/* =====================================================
+   1. GLOBAL STYLES
+===================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -6,32 +16,57 @@
 }
 
 :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --navy: #172554;
-    --background: #f1f5fb;
-    --white: #ffffff;
-    --text: #1e293b;
-    --muted: #64748b;
-    --border: #dbe4f0;
-    --success: #15803d;
-    --danger: #dc2626;
+    --primary: #0F8B8D;
+    --primary-dark: #087477;
+
+    --navy: #142B45;
+    --navy-light: #1B405B;
+
+    --background: #F5F7F8;
+    --white: #FFFFFF;
+
+    --text: #263746;
+    --muted: #718096;
+
+    --border: #E1E8ED;
+
+    --success: #16866A;
+    --success-light: #E7F5F1;
+
+    --danger: #DC5B61;
+    --danger-light: #FCEBEC;
+
+    --warning: #C27A27;
+    --warning-light: #FFF5E8;
+
+    --teal-light: #EAF5F5;
 }
 
 body {
     font-family: "Segoe UI", Arial, sans-serif;
-    background: radial-gradient(ellipse at top right, #dbeafe 0%, transparent 45%), var(--background);
+    background: var(--background);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
 }
 
-/* ===== Navigation Bar ===== */
+
+/* =====================================================
+   2. NAVIGATION BAR
+===================================================== */
+
 .navbar {
-    background: linear-gradient(120deg, #172554, #1e40af, #2563eb);
+    background: linear-gradient(
+        120deg,
+        var(--navy),
+        var(--navy-light)
+    );
+
     color: var(--white);
     padding: 22px 6%;
-    box-shadow: 0 4px 20px rgba(30, 64, 175, 0.18);
+
+    box-shadow: 0 4px 18px rgba(20, 43, 69, 0.15);
+
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -41,25 +76,35 @@ body {
     font-size: 23px;
     font-weight: 700;
     letter-spacing: 0.3px;
+
     display: flex;
     align-items: center;
 }
 
 .navbar h2::before {
     content: "🏫";
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     width: 38px;
     height: 38px;
+
     margin-right: 12px;
-    background: rgba(255, 255, 255, 0.16);
+
+    background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.2);
+
     border-radius: 12px;
     font-size: 21px;
 }
 
-/* ===== Containers & Cards ===== */
+
+/* =====================================================
+   3. CONTAINERS AND CARDS
+===================================================== */
+
 .container {
     width: 90%;
     max-width: 680px;
@@ -68,19 +113,34 @@ body {
 
 .card {
     position: relative;
+
     background: var(--white);
+
     padding: 38px;
-    border: 1px solid rgba(219, 228, 240, 0.9);
-    border-radius: 22px;
-    box-shadow: 0 20px 50px rgba(30, 64, 175, 0.08), 0 3px 10px rgba(15, 23, 42, 0.03);
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    box-shadow: 0 12px 35px rgba(20, 43, 69, 0.07);
+    overflow: hidden;
 }
 
 .card::before {
     content: "";
+
     position: absolute;
-    top: 0; left: 0; right: 0;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
     height: 5px;
-    background: linear-gradient(90deg, #2563eb, #60a5fa, #93c5fd);
+
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        #54B8B0
+    );
 }
 
 .intro {
@@ -89,33 +149,53 @@ body {
     margin-bottom: 25px;
 }
 
-/* ===== Form Controls ===== */
+
+/* =====================================================
+   4. FORM CONTROLS
+===================================================== */
+
 label {
     display: block;
-    color: #334155;
+
+    color: #344B5C;
     font-size: 14px;
     font-weight: 650;
+
     margin-bottom: 8px;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     display: block;
     width: 100%;
+
     padding: 13px 15px;
     margin-bottom: 22px;
+
     border: 1px solid var(--border);
-    border-radius: 10px;
-    background: #f8fafc;
+    border-radius: 9px;
+
+    background: #F8FAFB;
     color: var(--text);
+
     font-family: inherit;
     font-size: 15px;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
+
     background: var(--white);
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+
+    box-shadow: 0 0 0 4px rgba(15, 139, 141, 0.12);
 }
 
 textarea {
@@ -123,37 +203,79 @@ textarea {
     resize: vertical;
 }
 
+
+/* =====================================================
+   5. GENERAL BUTTONS
+===================================================== */
+
 button {
     display: block;
     width: 100%;
+
     padding: 14px 20px;
+
     border: none;
-    border-radius: 10px;
-    background: linear-gradient(120deg, #2563eb, #1d4ed8);
+    border-radius: 9px;
+
+    background: linear-gradient(
+        120deg,
+        var(--primary),
+        var(--primary-dark)
+    );
+
     color: var(--white);
+
     font-size: 15px;
     font-weight: 700;
+
     cursor: pointer;
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.23);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    box-shadow: 0 5px 14px rgba(15, 139, 141, 0.18);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
 }
 
 button:hover {
     transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(15, 139, 141, 0.24);
 }
 
-/* ===== Tables & Messages ===== */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(15, 139, 141, 0.3);
+    outline-offset: 2px;
+}
+
+
+/* =====================================================
+   6. MESSAGES
+===================================================== */
+
 #message:not(:empty) {
     margin-top: 20px;
     padding: 12px 15px;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
+
+    background: var(--success-light);
+    border: 1px solid #C7E8DD;
+
     color: var(--success);
-    border-radius: 10px;
+
+    border-radius: 9px;
     font-weight: 600;
 }
 
-/* ===== Principal Approval Panel Styles ===== */
+
+/* =====================================================
+   7. PRINCIPAL APPROVAL PANEL
+===================================================== */
+
 .page-header {
     text-align: center;
     margin-bottom: 20px;
@@ -162,26 +284,37 @@ button:hover {
 .filter-buttons {
     display: flex;
     justify-content: center;
+
     gap: 10px;
     margin-bottom: 25px;
+
     flex-wrap: wrap;
 }
 
 .filter {
-    background: #eef3ff;
-    color: #1f3c88;
+    background: #EAF1F3;
+    color: #344B5C;
+
     border: none;
     padding: 8px 18px;
+
     border-radius: 30px;
+
     cursor: pointer;
     font-weight: 600;
+
     width: auto;
     box-shadow: none;
 }
 
+.filter:hover {
+    background: #DDEBEC;
+    box-shadow: none;
+}
+
 .filter.active {
-    background: #1f3c88;
-    color: white;
+    background: var(--navy);
+    color: var(--white);
 }
 
 .leave-list {
@@ -190,14 +323,19 @@ button:hover {
 }
 
 .leave-card {
-    background: #f8fafc;
+    background: var(--white);
+
     border: 1px solid var(--border);
     border-radius: 14px;
+
     padding: 18px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     flex-wrap: wrap;
+    gap: 12px;
 }
 
 .leave-info h3 {
@@ -217,138 +355,210 @@ button:hover {
     margin-top: 10px;
 }
 
-.approve-btn, .reject-btn {
+.approve-btn,
+.reject-btn {
     border: none;
+
     padding: 8px 14px;
     border-radius: 8px;
+
     cursor: pointer;
     font-weight: 600;
+
     width: auto;
     box-shadow: none;
 }
 
-.approve-btn { background: var(--success); color: white; }
-.reject-btn { background: var(--danger); color: white; }
+.approve-btn {
+    background: var(--success);
+    color: white;
+}
 
-/* ===== Free Teacher Dashboard Specifics ===== */
+.approve-btn:hover {
+    background: #116B54;
+}
+
+.reject-btn {
+    background: var(--danger);
+    color: white;
+}
+
+.reject-btn:hover {
+    background: #C3444B;
+}
+
+
+/* =====================================================
+   8. AVAILABILITY DASHBOARD
+===================================================== */
+
 .availability-page {
-  width: min(1180px, 94%);
-  margin: 40px auto; /* Increased top/bottom margin from 36px to 40px */
-  padding-top: 20px;  /* Adds safe spacing below the navbar */
-  color: var(--text, #243047);
+    width: min(1180px, 94%);
+    margin: 40px auto;
+    padding-top: 20px;
+
+    color: var(--text);
 }
 
 .availability-header {
-  padding: 28px;
-  margin-bottom: 24px;
-  border-radius: 20px;
-  color: white;
-  background: linear-gradient(135deg, #173b67, #27865b);
+    padding: 28px;
+    margin-bottom: 24px;
+
+    border-radius: 18px;
+
+    color: white;
+
+    background: linear-gradient(
+        120deg,
+        var(--navy),
+        #176B70
+    );
+
+    box-shadow: 0 8px 24px rgba(20, 43, 69, 0.12);
 }
 
 .availability-header h1 {
-  margin: 8px 0;
-  font-size: clamp(1.7rem, 4vw, 2.5rem);
+    margin: 8px 0;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
 }
 
 .eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 2px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #B9E4DF;
 }
 
 .availability-panel {
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--white);
-  box-shadow: 0 8px 28px rgb(26 45 75 / 7%);
+    padding: 24px;
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    background: var(--white);
+
+    box-shadow: 0 8px 25px rgba(20, 43, 69, 0.06);
 }
 
-.date-heading, .period-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.date-heading,
+.period-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 }
+
+
+/* =====================================================
+   9. DATE NAVIGATION
+===================================================== */
 
 #today-button {
-  display: inline-block;
-  width: auto;
-  padding: 10px 18px;
-  background: #246b50;
-  box-shadow: none;
+    display: inline-block;
+    width: auto;
+
+    padding: 10px 18px;
+
+    background: var(--primary);
+    box-shadow: none;
+}
+
+#today-button:hover {
+    background: var(--primary-dark);
 }
 
 .workday-navigation {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
-  margin: 22px 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    gap: 10px;
+    margin: 22px 0;
 }
 
 .workday-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 12px 6px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #f8fafc;
-  cursor: pointer;
-  box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    padding: 12px 6px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: #F8FAFB;
+    color: var(--text);
+
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.workday-button:hover {
+    background: var(--teal-light);
+    border-color: var(--primary);
+    box-shadow: none;
 }
 
 .workday-button.active {
-  color: #155d3c;
-  border-color: #27865b;
-  background: #e5f5eb;
+    color: var(--primary-dark);
+
+    border-color: var(--primary);
+    background: #E3F3F1;
 }
 
+
+/* =====================================================
+   10. PERIOD CARDS
+===================================================== */
+
 .period-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+    margin-top: 15px;
 }
 
 .period-card {
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--white);
+    padding: 20px;
+
+    border: 1px solid var(--border);
+    border-radius: 15px;
+
+    background: var(--white);
+
+    box-shadow: 0 5px 18px rgba(20, 43, 69, 0.04);
+
+    margin-bottom: 24px;
 }
 
-.teacher-chip {
-  display: inline-block;
-  padding: 6px 12px;
-  border: 1px solid #cde9d8;
-  border-radius: 20px;
-  color: #205c40;
-  background: #eff9f2;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin: 4px;
+.lesson-card {
+    padding: 15px;
+    margin: 12px 0;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: #FFFFFF;
 }
 
-@media (max-width: 768px) {
-  .workday-navigation {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .period-list {
-    grid-template-columns: 1fr;
-  }
-}
 
-/* Constrains the width to match your period cards nicely */
+/* =====================================================
+   11. TIMETABLE UPLOAD
+===================================================== */
+
 .upload-container {
     max-width: 600px;
+
     margin: 20px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 22px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    box-shadow: 0 8px 25px rgba(20, 43, 69, 0.06);
 }
 
 .upload-container form {
@@ -359,47 +569,412 @@ button:hover {
 
 .upload-container input[type="file"] {
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
 
-/* Darker button styling with a smooth hover effect */
-.dark-upload-btn {
-    background-color: #1e293b; /* Dark slate color */
-    color: white;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.dark-upload-btn:hover {
-    background-color: #0f172a; /* Even darker shade on hover */
+    border: 1px solid var(--border);
+    border-radius: 6px;
 }
 
 .upload-form-inline {
     display: flex;
     flex-direction: column;
+
     gap: 12px;
     margin-top: 10px;
 }
 
+.dark-upload-btn,
 .card-upload-btn {
-    background-color: #1e293b; /* Dark slate matching your theme */
+    background: var(--navy);
     color: white;
-    padding: 8px 16px;
+
+    padding: 10px 16px;
+
     border: none;
-    border-radius: 6px;
+    border-radius: 7px;
+
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+
+    transition: background 0.2s ease;
+    box-shadow: none;
 }
 
+.dark-upload-btn:hover,
 .card-upload-btn:hover {
-    background-color: #0f172a;
+    background: #203F5C;
+    box-shadow: none;
 }
-.period-card, .import-card {
-    margin-bottom: 24px; /* Creates nice spacing between the cards */
+
+.card-upload-btn {
+    padding: 8px 16px;
+}
+
+
+/* =====================================================
+   12. VIEW FREE TEACHERS
+===================================================== */
+
+.view-free-teachers-btn {
+    margin-top: 15px;
+
+    padding: 10px 16px;
+
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+
+    background: var(--white);
+    color: var(--primary-dark);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.view-free-teachers-btn:hover {
+    background: var(--teal-light);
+    box-shadow: none;
+}
+
+.view-free-teachers-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.teacher-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.teacher-list[hidden] {
+    display: none;
+}
+
+.teacher-chip {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border: 1px solid #C7E8DD;
+    border-radius: 20px;
+
+    background: var(--success-light);
+    color: #176B57;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    margin: 4px;
+}
+
+
+/* =====================================================
+   13. MANUAL TEACHER ASSIGNMENT
+===================================================== */
+
+.change-teacher-btn {
+    margin-top: 10px;
+
+    padding: 9px 14px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: var(--navy);
+    color: white;
+
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.change-teacher-btn:hover {
+    background: var(--navy-light);
+    box-shadow: none;
+}
+
+.manual-search-container {
+    margin-top: 12px;
+}
+
+.manual-search-container[hidden] {
+    display: none;
+}
+
+.teacher-search-input {
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 7px;
+
+    background: white;
+    box-sizing: border-box;
+}
+
+.teacher-search-results {
+    margin-top: 8px;
+}
+
+.teacher-search-result {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+    padding: 12px;
+    margin-bottom: 6px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: white;
+    color: var(--text);
+
+    cursor: pointer;
+    text-align: left;
+
+    box-shadow: none;
+}
+
+.teacher-search-result:hover {
+    background: var(--teal-light);
+    border-color: var(--primary);
+    box-shadow: none;
+    transform: none;
+}
+
+
+/* =====================================================
+   14. TEACHER AVAILABILITY STATUS
+===================================================== */
+
+.availability-status {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-available {
+    color: var(--success);
+}
+
+.status-absent {
+    color: var(--danger);
+}
+
+.status-already-assigned {
+    color: var(--warning);
+}
+
+.status-not-free,
+.status-not-listed-as-free {
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   15. SELECTED TEACHER AND WARNING
+===================================================== */
+
+.selected-teacher {
+    margin-top: 10px;
+    padding: 12px;
+
+    border-radius: 8px;
+    background: var(--teal-light);
+}
+
+.selected-teacher p {
+    margin: 5px 0;
+}
+
+.warning-message {
+    color: #A96818;
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   16. SAVE MANUAL ASSIGNMENT
+===================================================== */
+
+.save-assignment-btn {
+    margin-top: 12px;
+
+    padding: 10px 16px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: var(--success);
+    color: white;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    box-shadow: none;
+}
+
+.save-assignment-btn:hover {
+    background: #116B54;
+    box-shadow: none;
+}
+
+.save-assignment-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.save-assignment-btn[hidden] {
+    display: none;
+}
+
+
+/* =====================================================
+   17. MANUAL ASSIGNMENT LABEL
+===================================================== */
+
+.manual-assignment-label {
+    display: inline-block;
+
+    margin-top: 8px;
+    padding: 5px 9px;
+
+    border-radius: 5px;
+
+    background: #E8EAF6;
+    color: #45558A;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   18. GENERAL ACCESSIBILITY
+===================================================== */
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+    outline: 3px solid rgba(15, 139, 141, 0.3);
+    outline-offset: 2px;
+}
+
+
+/* =====================================================
+   19. RESPONSIVE DESIGN
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 94%;
+        margin: 25px auto;
+    }
+
+    .card {
+        padding: 25px 20px;
+    }
+
+    .navbar {
+        padding: 17px 5%;
+    }
+
+    .navbar h2 {
+        font-size: 19px;
+    }
+
+    .availability-page {
+        width: 94%;
+        margin: 25px auto;
+        padding-top: 10px;
+    }
+
+    .availability-header {
+        padding: 22px;
+    }
+
+    .availability-panel {
+        padding: 18px;
+    }
+
+    .workday-navigation {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .period-list {
+        grid-template-columns: 1fr;
+    }
+
+    .leave-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .approve-btn,
+    .reject-btn {
+        flex: 1;
+    }
+}
+
+
+/* =====================================================
+   20. SMALL MOBILE SCREENS
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .navbar h2 {
+        font-size: 17px;
+    }
+
+    .navbar h2::before {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+    }
+
+    .card {
+        padding: 22px 16px;
+    }
+
+    .availability-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .date-heading,
+    .period-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .workday-navigation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-buttons {
+        justify-content: flex-start;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .approve-btn,
+    .reject-btn {
+        width: 100%;
+    }
 }
