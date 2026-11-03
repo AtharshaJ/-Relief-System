@@ -71,11 +71,17 @@ function addText(parent, tag, className, value) {
     return element;
 }
 
-function renderPeriods(periods) {
+
+function renderPeriods(periods, date) {
     periodList.replaceChildren();
 
     if (!periods || periods.length === 0) {
-        addText(periodList, "p", "empty-message", "No timetable periods were found for this day.");
+        addText(
+            periodList,
+            "p",
+            "empty-message",
+            "No timetable periods were found for this day."
+        );
         return;
     }
 
@@ -83,47 +89,173 @@ function renderPeriods(periods) {
         const card = document.createElement("article");
         card.className = "period-card";
 
+        // Period heading
         const heading = document.createElement("div");
         heading.className = "period-heading";
+
         addText(heading, "h3", "", `Period ${period.periodNo}`);
-        addText(heading, "span", "period-count", `${period.freeTeachers.length} free`);
+
         card.appendChild(heading);
 
-        addText(card, "h4", "", `Relief Assignments (${period.reliefAssignments.length})`);
+        // Relief assignments heading
+        addText(
+            card,
+            "h4",
+            "",
+            `Relief Assignments (${period.reliefAssignments.length})`
+        );
+
+        // Display relief assignments
         if (period.reliefAssignments.length === 0) {
-            addText(card, "p", "empty-message", "No approved-absence lessons identified.");
+
+            addText(
+                card,
+                "p",
+                "empty-message",
+                "No approved-absence lessons identified."
+            );
+
         } else {
+
             const lessonList = document.createElement("ul");
+
             period.reliefAssignments.forEach((lesson) => {
                 const item = document.createElement("li");
+
                 item.textContent =
-                        `${lesson.class_name} — ${lesson.subject_name}
-                        | Absent: ${lesson.absent_teacher}
-                        | Assigned: ${lesson.assigned_teacher ?? "None"}
-                        | Priority: ${lesson.priority}`;
+                    `${lesson.class_name} — ${lesson.subject_name}
+                    | Absent: ${lesson.absent_teacher}
+                    | Assigned: ${lesson.assigned_teacher ?? "None"}
+                    | Priority: ${lesson.priority}`;
+
                 lessonList.appendChild(item);
             });
+
             card.appendChild(lessonList);
         }
 
-        addText(card, "h4", "", "Available teachers");
-        if (period.freeTeachers.length === 0) {
-            addText(card, "p", "empty-message", "No free teachers found for this period.");
-        } else {
-            const teacherList = document.createElement("div");
-            teacherList.className = "teacher-list";
-            period.freeTeachers.forEach((teacher) => {
-                const chip = document.createElement("span");
-                chip.className = "teacher-chip";
-                chip.textContent = teacher.name;
-                teacherList.appendChild(chip);
-            });
-            card.appendChild(teacherList);
-        }
+        // View Free Teachers button
+        const freeTeacherButton = document.createElement("button");
+
+        freeTeacherButton.type = "button";
+        freeTeacherButton.className = "view-free-teachers-btn";
+        freeTeacherButton.textContent = "View Free Teachers";
+        freeTeacherButton.setAttribute("aria-expanded", "false");
+
+        card.appendChild(freeTeacherButton);
+
+        // Container where free teacher names will appear
+        const teacherContainer = document.createElement("div");
+
+        teacherContainer.className = "teacher-list";
+        teacherContainer.hidden = true;
+
+        card.appendChild(teacherContainer);
+
+        // Button click event
+        freeTeacherButton.addEventListener("click", async () => {
+
+            // If the list is already visible, hide it
+            if (!teacherContainer.hidden) {
+                teacherContainer.hidden = true;
+                freeTeacherButton.setAttribute("aria-expanded", "false");
+                return;
+            }
+
+            // Show the container
+            teacherContainer.hidden = false;
+            freeTeacherButton.setAttribute("aria-expanded", "true");
+
+            // Avoid requesting the same data again
+            if (teacherContainer.dataset.loaded === "true") {
+                return;
+            }
+
+            await loadFreeTeachers(
+                date,
+                period.periodNo,
+                teacherContainer,
+                freeTeacherButton
+            );
+        });
 
         periodList.appendChild(card);
     });
 }
+
+
+async function loadFreeTeachers(date, periodNo, container, button) {
+
+    button.disabled = true;
+    button.textContent = "Loading teachers...";
+
+    container.replaceChildren();
+
+    try {
+
+        const response = await fetch(
+            `/api/availability/free-teachers?date=${encodeURIComponent(date)}&period=${encodeURIComponent(periodNo)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Could not load free teachers."
+            );
+        }
+
+        if (!data.freeTeachers || data.freeTeachers.length === 0) {
+
+            addText(
+                container,
+                "p",
+                "empty-message",
+                "No free teachers available for this period."
+            );
+
+        } else {
+
+            addText(
+                container,
+                "h4",
+                "",
+                "Available Teachers"
+            );
+
+            data.freeTeachers.forEach((teacher) => {
+
+                const teacherItem = document.createElement("div");
+
+                teacherItem.className = "teacher-chip";
+                teacherItem.textContent =
+                    `${teacher.name} (${teacher.teacher_id})`;
+
+                container.appendChild(teacherItem);
+            });
+        }
+
+        // Remember that we have already loaded this list
+        container.dataset.loaded = "true";
+
+    } catch (error) {
+
+        addText(
+            container,
+            "p",
+            "empty-message",
+            error.message === "Failed to fetch"
+                ? "Cannot connect to the backend server."
+                : error.message
+        );
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = "Hide Free Teachers";
+    }
+}
+
 
 async function loadAvailability(day) {
     selectedDay.textContent = day.dayName;
@@ -148,7 +280,7 @@ async function loadAvailability(day) {
             return;
         }
 
-        renderPeriods(data.periods);
+      renderPeriods(data.periods, day.value);
 
         message.textContent =
             `Showing relief allocations for ${day.dayName}.`;
@@ -197,7 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     statusText.style.color = "green";
-                    statusText.textContent = resultText; 
+                    statusText.textContent =
+    result.message || "Timetable imported successfully.";
                     const activeWorkday = workdays.find(d => d.value === selectedDateValue);
                     if (activeWorkday) {
                         loadAvailability(activeWorkday);

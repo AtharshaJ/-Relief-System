@@ -403,3 +403,45 @@ button:hover {
 .period-card, .import-card {
     margin-bottom: 24px; /* Creates nice spacing between the cards */
 }
+
+
+.view-free-teachers-btn {
+    margin-top: 15px;
+    padding: 10px 16px;
+    border: 1px solid #2563eb;
+    border-radius: 6px;
+    background-color: white;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-free-teachers-btn:hover {
+    background-color: #eff6ff;
+}
+
+.view-free-teachers-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.teacher-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.teacher-list[hidden] {
+    display: none;
+}
+
+.teacher-chip {
+    padding: 7px 12px;
+    border-radius: 20px;
+    background-color: #e0f2fe;
+    color: #075985;
+    font-size: 13px;
+}
+

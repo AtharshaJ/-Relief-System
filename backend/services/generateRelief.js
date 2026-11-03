@@ -1,5 +1,6 @@
 const pool = require("../db");
 
+//converts javascript date object into date sting format yyyy-mm-dd
 function localDateString(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -27,7 +28,7 @@ async function generateReliefForAbsence(absenceId) {
 
     console.log("Absence:", absence);
 
-    // STEP 1
+    // STEP 1 //Find existing relief assignments affected by this absence
     const affectedReliefs = await pool.query(
         `SELECT *
          FROM relief_allocations
@@ -40,7 +41,7 @@ async function generateReliefForAbsence(absenceId) {
         ]
     );
 
-    // STEP 2
+    // STEP 2 deletes the releif assaignments identified above
     await pool.query(
         `DELETE FROM relief_allocations
          WHERE assigned_teacher_id = $1
@@ -70,7 +71,7 @@ async function generateReliefForAbsence(absenceId) {
 
     // convert UTC timestamp to local school date
     current.setHours(12, 0, 0, 0);
-    end.setHours(12, 0, 0, 0);;
+    end.setHours(12, 0, 0, 0);
 
     while (current <= end) {
 
