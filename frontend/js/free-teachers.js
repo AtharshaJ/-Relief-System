@@ -4,6 +4,7 @@ const selectedDate = document.getElementById("selected-date");
 const periodList = document.getElementById("period-list");
 const message = document.getElementById("availability-message");
 const todayButton = document.getElementById("today-button");
+let teacherSearchRequestId = 0;
 
 let selectedDateValue = "";
 let workdays = [];
@@ -73,6 +74,7 @@ function addText(parent, tag, className, value) {
 
 
 function renderPeriods(periods, date) {
+
     periodList.replaceChildren();
 
     if (!periods || periods.length === 0) {
@@ -85,7 +87,8 @@ function renderPeriods(periods, date) {
         return;
     }
 
-    periods.forEach((period) => {
+    periods.forEach(period => {
+
         const card = document.createElement("article");
         card.className = "period-card";
 
@@ -97,16 +100,17 @@ function renderPeriods(periods, date) {
 
         card.appendChild(heading);
 
-        // Relief assignments heading
+        // Relief assignments
+        const assignments = period.reliefAssignments || [];
+
         addText(
             card,
             "h4",
             "",
-            `Relief Assignments (${period.reliefAssignments.length})`
+            `Relief Assignments (${assignments.length})`
         );
 
-        // Display relief assignments
-        if (period.reliefAssignments.length === 0) {
+        if (assignments.length === 0) {
 
             addText(
                 card,
@@ -117,24 +121,80 @@ function renderPeriods(periods, date) {
 
         } else {
 
-            const lessonList = document.createElement("ul");
+            assignments.forEach(lesson => {
 
-            period.reliefAssignments.forEach((lesson) => {
-                const item = document.createElement("li");
+                const lessonCard = document.createElement("div");
+                lessonCard.className = "lesson-card";
 
-                item.textContent =
-                    `${lesson.class_name} — ${lesson.subject_name}
-                    | Absent: ${lesson.absent_teacher}
-                    | Assigned: ${lesson.assigned_teacher ?? "None"}
-                    | Priority: ${lesson.priority}`;
+                addText(
+                    lessonCard,
+                    "h4",
+                    "",
+                    `${lesson.class_name} — ${lesson.subject_name}`
+                );
 
-                lessonList.appendChild(item);
+                addText(
+                    lessonCard,
+                    "p",
+                    "",
+                    `Absent: ${lesson.absent_teacher}`
+                );
+
+                addText(
+                    lessonCard,
+                    "p",
+                    "",
+                    `Assigned: ${lesson.assigned_teacher ?? "None"}`
+                );
+
+                addText(
+                    lessonCard,
+                    "p",
+                    "",
+                    `Priority: ${lesson.priority}`
+                );
+
+                // Change Teacher button
+                const changeButton = document.createElement("button");
+
+                changeButton.type = "button";
+                changeButton.className = "change-teacher-btn";
+                changeButton.textContent = "Change Teacher";
+
+                lessonCard.appendChild(changeButton);
+
+                // Search area
+                const searchContainer = document.createElement("div");
+
+                searchContainer.className = "manual-search-container";
+                searchContainer.hidden = true;
+
+                lessonCard.appendChild(searchContainer);
+
+                changeButton.addEventListener("click", () => {
+
+                    searchContainer.hidden = !searchContainer.hidden;
+
+                    if (searchContainer.hidden) {
+                        changeButton.textContent = "Change Teacher";
+                        return;
+                    }
+
+                    changeButton.textContent = "Close Search";
+
+                    showTeacherSearch(
+                        date,
+                        period.periodNo,
+                        lesson.id,
+                        searchContainer
+                    );
+                });
+
+                card.appendChild(lessonCard);
             });
-
-            card.appendChild(lessonList);
         }
 
-        // View Free Teachers button
+        // View Free Teachers button (preserved)
         const freeTeacherButton = document.createElement("button");
 
         freeTeacherButton.type = "button";
@@ -144,7 +204,6 @@ function renderPeriods(periods, date) {
 
         card.appendChild(freeTeacherButton);
 
-        // Container where free teacher names will appear
         const teacherContainer = document.createElement("div");
 
         teacherContainer.className = "teacher-list";
@@ -152,21 +211,22 @@ function renderPeriods(periods, date) {
 
         card.appendChild(teacherContainer);
 
-        // Button click event
         freeTeacherButton.addEventListener("click", async () => {
 
-            // If the list is already visible, hide it
             if (!teacherContainer.hidden) {
+
                 teacherContainer.hidden = true;
                 freeTeacherButton.setAttribute("aria-expanded", "false");
+                freeTeacherButton.textContent = "View Free Teachers";
+
                 return;
             }
 
-            // Show the container
             teacherContainer.hidden = false;
-            freeTeacherButton.setAttribute("aria-expanded", "true");
 
-            // Avoid requesting the same data again
+            freeTeacherButton.setAttribute("aria-expanded", "true");
+            freeTeacherButton.textContent = "Hide Free Teachers";
+
             if (teacherContainer.dataset.loaded === "true") {
                 return;
             }
@@ -182,7 +242,6 @@ function renderPeriods(periods, date) {
         periodList.appendChild(card);
     });
 }
-
 
 async function loadFreeTeachers(date, periodNo, container, button) {
 
@@ -351,3 +410,289 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+async function searchTeachers(
+    query,
+    date,
+    periodNo,
+    allocationId,
+    resultsContainer,
+    onTeacherSelected
+) {
+    const requestId = ++teacherSearchRequestId;
+
+    if (!query.trim()) {
+        resultsContainer.replaceChildren();
+        return;
+    }
+
+    resultsContainer.replaceChildren();
+
+    addText(
+        resultsContainer,
+        "p",
+        "search-message",
+        "Searching teachers..."
+    );
+
+    try {
+        const params = new URLSearchParams({
+            date,
+            period: periodNo,
+            q: query.trim(),
+            allocationId
+        });
+
+        const response = await fetch(
+            `/api/availability/search-teachers?${params.toString()}`
+        );
+
+        const data = await response.json();
+
+        if (requestId !== teacherSearchRequestId) {
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(data.error || "Teacher search failed.");
+        }
+
+        resultsContainer.replaceChildren();
+
+        if (!data.teachers || data.teachers.length === 0) {
+            addText(
+                resultsContainer,
+                "p",
+                "empty-message",
+                "No matching teacher IDs found."
+            );
+            return;
+        }
+
+        data.teachers.forEach(teacher => {
+
+            const teacherOption = document.createElement("button");
+
+            teacherOption.type = "button";
+            teacherOption.className = "teacher-search-result";
+
+            addText(
+                teacherOption,
+                "strong",
+                "",
+                teacher.teacher_id
+            );
+
+            addText(
+                teacherOption,
+                "span",
+                "",
+                teacher.name
+            );
+
+            const status = addText(
+                teacherOption,
+                "span",
+                "availability-status",
+                teacher.availability_status
+            );
+
+            status.classList.add(
+                "status-" + teacher.availability_status
+                    .toLowerCase()
+                    .replaceAll(" ", "-")
+            );
+
+            teacherOption.addEventListener("click", () => {
+                onTeacherSelected(teacher);
+            });
+
+            resultsContainer.appendChild(teacherOption);
+        });
+
+    } catch (error) {
+
+        if (requestId !== teacherSearchRequestId) {
+            return;
+        }
+
+        resultsContainer.replaceChildren();
+
+        addText(
+            resultsContainer,
+            "p",
+            "empty-message",
+            error.message === "Failed to fetch"
+                ? "Cannot connect to the backend server."
+                : error.message
+        );
+    }
+}
+
+function showTeacherSearch(date, periodNo, allocationId, container) {
+
+    container.replaceChildren();
+
+    let selectedTeacher = null;
+
+    // Teacher ID input
+    const searchInput = document.createElement("input");
+
+    searchInput.type = "text";
+    searchInput.placeholder = "Enter Teacher ID...";
+    searchInput.className = "teacher-search-input";
+    searchInput.autocomplete = "off";
+
+    container.appendChild(searchInput);
+
+    // Search results
+    const resultsContainer = document.createElement("div");
+
+    resultsContainer.className = "teacher-search-results";
+
+    container.appendChild(resultsContainer);
+
+    // Selected teacher information
+    const selectedContainer = document.createElement("div");
+
+    selectedContainer.className = "selected-teacher";
+
+    container.appendChild(selectedContainer);
+
+    // Save button
+    const saveButton = document.createElement("button");
+
+    saveButton.type = "button";
+    saveButton.className = "save-assignment-btn";
+    saveButton.textContent = "Save Assignment";
+    saveButton.hidden = true;
+
+    container.appendChild(saveButton);
+
+    let searchTimer;
+
+    // Search as the admin types
+    searchInput.addEventListener("input", () => {
+
+        clearTimeout(searchTimer);
+
+        selectedTeacher = null;
+        selectedContainer.replaceChildren();
+        saveButton.hidden = true;
+
+        const query = searchInput.value.trim();
+
+        searchTimer = setTimeout(() => {
+
+            searchTeachers(
+                query,
+                date,
+                periodNo,
+                allocationId,
+                resultsContainer,
+                (teacher) => {
+
+                    selectedTeacher = teacher;
+
+                    resultsContainer.replaceChildren();
+                    selectedContainer.replaceChildren();
+
+                    addText(
+                        selectedContainer,
+                        "p",
+                        "",
+                        `Selected: ${teacher.teacher_id} - ${teacher.name}`
+                    );
+
+                    addText(
+                        selectedContainer,
+                        "p",
+                        "availability-status",
+                        `Status: ${teacher.availability_status}`
+                    );
+
+                    if (teacher.availability_status !== "Available") {
+                        addText(
+                            selectedContainer,
+                            "p",
+                            "warning-message",
+                            "Warning: This teacher may have a scheduling conflict. Please verify before confirming."
+                        );
+                    }
+
+                    saveButton.hidden = false;
+                }
+            );
+
+        }, 250);
+    });
+
+    // Save manually selected teacher
+    saveButton.addEventListener("click", async () => {
+
+        if (!selectedTeacher) {
+            return;
+        }
+
+        const hasConflict =
+            selectedTeacher.availability_status !== "Available";
+
+        const confirmationMessage = hasConflict
+            ? `Warning: ${selectedTeacher.teacher_id} is marked as "${selectedTeacher.availability_status}". Do you still want to assign this teacher?`
+            : `Assign ${selectedTeacher.teacher_id} to this relief lesson?`;
+
+        if (!confirm(confirmationMessage)) {
+            return;
+        }
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+
+        try {
+
+            const response = await fetch(
+                "/api/availability/assign",
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        allocationId,
+                        teacherId: selectedTeacher.teacher_id
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error || "Failed to save assignment."
+                );
+            }
+
+            alert(data.message);
+
+            // Refresh the selected day's dashboard
+            const activeDay = workdays.find(
+                day => day.value === date
+            );
+
+            if (activeDay) {
+                await loadAvailability(activeDay);
+            }
+
+        } catch (error) {
+
+            alert(error.message);
+
+        } finally {
+
+            saveButton.disabled = false;
+            saveButton.textContent = "Save Assignment";
+        }
+    });
+
+    searchInput.focus();
+}
