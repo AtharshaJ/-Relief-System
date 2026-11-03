@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Registration | School Relief System</title>
+
+    <link rel="stylesheet" href="css/employee-registration.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a class="brand" href="static/home.html">
+            School Relief System
+        </a>
+
+        <a class="back-link" href="employee-designation.html">
+            ← Change designation
+        </a>
+    </header>
+
+
+    <main class="page-container">
+
+        <section class="intro">
+            <span class="eyebrow">EMPLOYEE REGISTRATION</span>
+
+            <h1>Employee Details</h1>
+
+            <p>
+                Please complete the following information
+                to create your employee account.
+            </p>
+        </section>
+
+
+        <form id="employeeForm" class="selection-panel">
+
+            <!-- DESIGNATION -->
+
+            <h2 class="form-section-title">
+                Employment Information
+            </h2>
+
+            <div class="form-group">
+                <label for="designation">Designation</label>
+
+                <input
+                    type="text"
+                    id="designation"
+                    name="designation"
+                    readonly
+                >
+
+                <small>
+                    This was selected on the previous page.
+                </small>
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <h2 class="form-section-title">
+                Personal Information
+            </h2>
+
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Enter your full name"
+                    maxlength="150"
+                    required
+                >
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="trId">
+                        Official TR / Employee ID *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="trId"
+                        name="trId"
+                        placeholder="e.g. TR1025"
+                        maxlength="50"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="contactNumber">
+                        Contact Number *
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="contactNumber"
+                        name="contactNumber"
+                        placeholder="Enter contact number"
+                        maxlength="20"
+                        required
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- EMPLOYMENT INFORMATION -->
+
+            
+                
+
+
+            <div class="form-group">
+                <label for="shortName">
+                    Timetable Short Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="shortName"
+                    name="shortName"
+                    placeholder="e.g. AJ"
+                    maxlength="30"
+                    required
+                >
+
+                <small>
+                    Enter the short name used for you in the school's
+                    aSc timetable.
+                </small>
+            </div>
+
+
+            <!-- ACCOUNT INFORMATION -->
+
+            <h2 class="form-section-title">
+                Login Information
+            </h2>
+
+            <div class="form-group">
+                <label for="username">Username *</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Choose a username"
+                    minlength="4"
+                    maxlength="50"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <small>
+                        Minimum 8 characters.
+                    </small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        Confirm Password *
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        minlength="8"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+            </div>
+
+
+            <p id="formMessage" class="form-message"></p>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="employee-designation.html"
+                    class="secondary-button"
+                >
+                    Go Back
+                </a>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Create Account →
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <p class="privacy-note">
+            Please ensure that all information is accurate
+            before submitting your registration.
+        </p>
+
+    </main>
+
+
+    <script src="js/employee-registration.js"></script>
+
+</body>
+
+</html>

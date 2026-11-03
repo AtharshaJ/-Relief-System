@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Select Designation | School Relief System</title>
+
+    <link rel="stylesheet" href="css/employee-registration.css">
+</head>
+
+<body>
+
+    <!-- Navigation bar -->
+    <header class="topbar">
+        <a class="brand" href="static/home.html">
+            School Relief System
+        </a>
+
+        <a class="back-link" href="static/home.html">
+            ← Back to Home
+        </a>
+    </header>
+
+
+    <main class="page-container">
+
+        <!-- Page heading -->
+        <section class="intro">
+            <span class="eyebrow">EMPLOYEE REGISTRATION</span>
+
+            <h1>Select your designation</h1>
+
+            <p>
+                Please choose the designation that best describes
+                your role at the school.
+            </p>
+        </section>
+
+
+        <!-- Designation selection form -->
+        <form id="designationForm" class="selection-panel">
+
+            <div class="designation-grid">
+
+                <!-- Principal -->
+                <label class="designation-card">
+
+                    <input
+                        type="radio"
+                        name="designation"
+                        value="Principal"
+                        required
+                    >
+
+                    <span class="card-content">
+                        <span class="card-icon">🏫</span>
+
+                        <span class="card-title">
+                            Principal
+                        </span>
+
+                        <span class="card-description">
+                            School leadership
+                        </span>
+                    </span>
+
+                </label>
+
+
+                <!-- Vice Principal -->
+                <label class="designation-card">
+
+                    <input
+                        type="radio"
+                        name="designation"
+                        value="Vice Principal"
+                    >
+
+                    <span class="card-content">
+                        <span class="card-icon">👥</span>
+
+                        <span class="card-title">
+                            Vice Principal
+                        </span>
+
+                        <span class="card-description">
+                            School leadership
+                        </span>
+                    </span>
+
+                </label>
+
+
+                <!-- Teacher -->
+                <label class="designation-card">
+
+                    <input
+                        type="radio"
+                        name="designation"
+                        value="Teacher"
+                    >
+
+                    <span class="card-content">
+                        <span class="card-icon">📚</span>
+
+                        <span class="card-title">
+                            Teacher
+                        </span>
+
+                        <span class="card-description">
+                            Teaching staff
+                        </span>
+                    </span>
+
+                </label>
+
+
+                <!-- Other -->
+                <label class="designation-card">
+
+                    <input
+                        type="radio"
+                        name="designation"
+                        value="Other"
+                    >
+
+                    <span class="card-content">
+                        <span class="card-icon">💼</span>
+
+                        <span class="card-title">
+                            Other
+                        </span>
+
+                        <span class="card-description">
+                            Other school staff
+                        </span>
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Custom designation field -->
+            <div id="otherDesignationGroup"
+                 class="other-designation"
+                 hidden>
+
+                <label for="otherDesignation">
+                    Enter your designation
+                </label>
+
+                <input
+                    type="text"
+                    id="otherDesignation"
+                    placeholder="e.g. Deputy Principal"
+                    maxlength="100"
+                >
+
+            </div>
+
+
+            <!-- Error message -->
+            <p id="formMessage" class="form-message"></p>
+
+
+            <!-- Buttons -->
+            <div class="form-actions">
+
+                <a href="static/home.html"
+                   class="secondary-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="primary-button">
+                    Continue →
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <p class="privacy-note">
+            Your selected designation will be carried into
+            the employee registration form.
+        </p>
+
+    </main>
+
+
+    <script src="js/employee-designation.js"></script>
+
+</body>
+</html>
