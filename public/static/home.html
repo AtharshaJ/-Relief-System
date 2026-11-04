@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>School Relief System</title>
+
+    <style>
+
+        /* =====================================
+           1. GLOBAL STYLES
+        ===================================== */
+
+        :root {
+            --navy: #142B45;
+            --navy-light: #1B405B;
+
+            --teal: #0F8B8D;
+            --teal-dark: #087477;
+            --teal-light: #EAF5F5;
+
+            --background: #F5F7F8;
+            --white: #FFFFFF;
+
+            --text: #263746;
+            --muted: #718096;
+
+            --border: #E1E8ED;
+
+            --shadow: 0 12px 35px rgba(20, 43, 69, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
+            background: var(--background);
+            color: var(--text);
+        }
+
+
+        /* =====================================
+           2. HERO SECTION
+        ===================================== */
+
+        header {
+            position: relative;
+            overflow: hidden;
+
+            background: linear-gradient(
+                120deg,
+                var(--navy),
+                var(--navy-light),
+                #176B70
+            );
+
+            color: white;
+
+            padding: 75px 20px 105px;
+
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(20, 43, 69, 0.12);
+        }
+
+        /* Decorative background circles */
+
+        header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            top: -150px;
+            right: -70px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        header::after {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            bottom: -130px;
+            left: -60px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .hero-label {
+            display: inline-block;
+
+            padding: 7px 16px;
+            margin-bottom: 20px;
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+
+            background: rgba(255, 255, 255, 0.1);
+
+            color: #C8EBE7;
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+
+            font-weight: 750;
+            letter-spacing: -1px;
+
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+
+            color: #D9E7ED;
+
+            max-width: 650px;
+            margin: auto;
+        }
+
+
+        /* =====================================
+           3. MAIN CONTENT
+        ===================================== */
+
+        main {
+            width: 100%;
+            max-width: 1120px;
+
+            margin: -55px auto 65px;
+
+            padding: 0 25px;
+
+            position: relative;
+            z-index: 2;
+
+            flex: 1;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-heading h2 {
+            color: var(--navy);
+
+            font-size: 1.5rem;
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+
+        /* =====================================
+           4. NAVIGATION CARD GRID
+        ===================================== */
+
+        .card-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+            gap: 25px;
+        }
+
+
+        /* =====================================
+           5. NAVIGATION CARDS
+        ===================================== */
+
+        .nav-card {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            min-height: 310px;
+
+            padding: 30px 27px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: 17px;
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-7px);
+
+            border-color: #A9D9D5;
+
+            box-shadow: 0 18px 40px rgba(20, 43, 69, 0.12);
+        }
+
+        .nav-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 5px;
+
+            background: linear-gradient(
+                90deg,
+                var(--teal),
+                #54B8B0
+            );
+        }
+
+
+        /* =====================================
+           6. CARD ICONS
+        ===================================== */
+
+        .card-icon {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 58px;
+            height: 58px;
+
+            margin-bottom: 23px;
+
+            border-radius: 15px;
+
+            background: var(--teal-light);
+
+            color: var(--teal-dark);
+
+            font-size: 27px;
+        }
+
+        .nav-card h3 {
+            color: var(--navy);
+
+            font-size: 1.3rem;
+            font-weight: 700;
+
+            margin-bottom: 12px;
+        }
+
+        .nav-card p {
+            color: var(--muted);
+
+            font-size: 0.94rem;
+            line-height: 1.7;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================
+           7. NAVIGATION BUTTONS
+        ===================================== */
+
+        .btn {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+
+            padding: 13px 18px;
+
+            border-radius: 9px;
+
+            background: var(--teal);
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+            box-shadow: 0 5px 13px rgba(15, 139, 141, 0.15);
+        }
+
+        .btn:hover {
+            background: var(--teal-dark);
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 7px 17px rgba(15, 139, 141, 0.22);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid rgba(15, 139, 141, 0.35);
+            outline-offset: 3px;
+        }
+
+
+        /* Principal card button distinction */
+
+        .principal-card .btn {
+            background: var(--navy);
+            box-shadow: 0 5px 13px rgba(20, 43, 69, 0.15);
+        }
+
+        .principal-card .btn:hover {
+            background: var(--navy-light);
+        }
+
+
+        /* =====================================
+           8. FOOTER
+        ===================================== */
+
+        footer {
+            padding: 22px 15px;
+
+            text-align: center;
+
+            background: var(--white);
+
+            border-top: 1px solid var(--border);
+
+            color: var(--muted);
+
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            line-height: 1.6;
+        }
+
+
+        /* =====================================
+           9. TABLET RESPONSIVENESS
+        ===================================== */
+
+        @media (max-width: 900px) {
+
+            .card-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .principal-card {
+                grid-column: 1 / -1;
+            }
+
+            header {
+                padding: 65px 20px 90px;
+            }
+
+        }
+
+
+        /* =====================================
+           10. MOBILE RESPONSIVENESS
+        ===================================== */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 55px 20px 85px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 0.95rem;
+            }
+
+            main {
+                padding: 0 18px;
+                margin-top: -45px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .principal-card {
+                grid-column: auto;
+            }
+
+            .nav-card {
+                min-height: 270px;
+                padding: 25px;
+            }
+
+            .section-heading h2 {
+                font-size: 1.3rem;
+            }
+
+        }
+
+
+        /* =====================================
+           11. REDUCED MOTION ACCESSIBILITY
+        ===================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         HERO SECTION
+    ====================================== -->
+
+    <header>
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                School Administration Portal
+            </div>
+
+            <h1>🏫 School Relief System</h1>
+
+            <p>
+                Simplifying teacher management, leave administration,
+                and daily school scheduling through one integrated platform.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================
+         MAIN NAVIGATION
+    ====================================== -->
+
+    <main>
+
+        
+
+
+        <div class="card-grid">
+
+
+            <!-- LEAVE APPLICATION CARD -->
+
+            <div class="nav-card">
+
+                <div>
+
+                    <div class="card-icon">
+                        📋
+                    </div>
+
+                    <h3>Leave Application</h3>
+
+                    <p>
+                        Submit your absence requests, view application
+                        status, and manage teacher leave schedules.
+                    </p>
+
+                </div>
+
+                <a href="../leave.html" class="btn">
+                    Apply for Leave →
+                </a>
+
+            </div>
+
+
+
+            <!-- RELIEF DASHBOARD CARD -->
+
+            <div class="nav-card">
+
+                <div>
+
+                    <div class="card-icon">
+                        📅
+                    </div>
+
+                    <h3>Relief Dashboard</h3>
+
+                    <p>
+                        View daily timetables, check available teachers,
+                        and manage relief class assignments.
+                    </p>
+
+                </div>
+
+                <a href="../free-teachers.html" class="btn">
+                    View Relief Dashboard →
+                </a>
+
+            </div>
+
+
+
+            <!-- PRINCIPAL LOGIN CARD -->
+
+            <div class="nav-card principal-card">
+
+                <div>
+
+                    <div class="card-icon">
+                        🛡️
+                    </div>
+
+                    <h3>Principal Login</h3>
+
+                    <p>
+                        Review leave applications, approve or reject
+                        requests, and oversee school-wide operations.
+                    </p>
+
+                </div>
+
+                <a href="principal-login.html" class="btn">
+                    Principal Login →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer>
+
+        <p>
+            &copy; 2026 School Relief System.
+            All rights reserved.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

@@ -158,16 +158,16 @@ npm run dev
 The server should start at:
 
 ```text
-http://localhost:5000
+
 ```
 
 ### 6. Open the Application
 
 Once the backend is running, open:
 
-- **Teacher Management:** http://localhost:5000/teachers.html
-- **Database Health Check:** http://localhost:5000/api/health
-- **Teacher API:** http://localhost:5000/api/teachers
+- **Teacher Management:** /teachers.html
+- **Database Health Check:** /api/health
+- **Teacher API:** /api/teachers
 
 The health-check endpoint can be used to verify that the backend can communicate with PostgreSQL.
 

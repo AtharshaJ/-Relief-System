@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>School Relief System - Leave Application</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/leave.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar">
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+        <h2>School Relief System</h2>
+    </a>
+</nav>
+
+    <main class="container">
+        <section class="card">
+            <h2>Teacher Leave Application</h2>
+            <p class="intro">
+                Submit a leave request for the selected date.
+            </p>
+
+            <form id="leaveForm">
+    <label for="teacherId">Teacher ID</label>
+    <input type="text" id="teacherId" placeholder="Enter Teacher ID (e.g., T001)" required>
+
+    <label for="startDate">Start Date</label>
+    <input type="date" id="startDate" required>
+
+    <label for="endDate">End Date</label>
+    <input type="date" id="endDate" required>
+
+    <label for="reason">Reason</label>
+    <textarea id="reason" rows="4" placeholder="Enter reason for leave (optional)"></textarea>
+
+    <button type="submit" id="submitButton">Submit Leave Request</button>
+</form>
+
+            <p id="message" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+</body>
+</html>

@@ -47,15 +47,15 @@ router.put("/leave/:id", async (req, res) => {
             [status, id]
         );
 
-        const absence = result.rows[0];
-        if (status === "Approved") {
-            await generateReliefForAbsence(absence.id);
-        }
+       if (result.rows.length === 0) {
+    return res.status(404).json({ error: "Leave application not found." });
+}
 
+const absence = result.rows[0];
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: "Leave application not found." });
-        }
+if (status === "Approved") {
+    await generateReliefForAbsence(absence.id);
+}
 
         res.json({
             message: `Leave application ${status.toLowerCase()} successfully.`,

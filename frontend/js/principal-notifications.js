@@ -16,7 +16,7 @@ buttons.forEach(button => {
 
 async function loadLeaves(status) {
     try {
-        const response = await fetch(`http://localhost:5000/api/leave?status=${status}`);
+        const response = await fetch(`/api/leave?status=${status}`);
         const leaves = await response.json();
         container.innerHTML = "";
 
@@ -82,7 +82,7 @@ function toggleCard(headerElement) {
 
 async function updateStatus(id, status) {
     try {
-        await fetch(`http://localhost:5000/api/leave/${id}`, {
+        await fetch(`/api/leave/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ status })

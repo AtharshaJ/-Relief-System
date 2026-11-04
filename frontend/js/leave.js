@@ -19,7 +19,7 @@ form.addEventListener("submit", async (event) => {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/absences",
+            "/api/absences",
             {
                 method: "POST",
                 headers: {

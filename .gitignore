@@ -188,3 +188,8 @@ node_modules/
 *.log
 .DS_Store
 *.xml
+
+# Database backups
+*.backup
+*.dump
+*.sql

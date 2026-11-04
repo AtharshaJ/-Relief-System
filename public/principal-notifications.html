@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Relief System - Leave Notifications</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    
+    <!-- Uniform Navigation Bar -->
+    <nav class="navbar">
+    <a href="s/" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+        <h2>School Relief System</h2>
+    </a>
+</nav>
+
+    <main class="container" style="max-width: 900px;">
+        <section class="card">
+            <div class="page-header">
+                <h2>Leave Applications</h2>
+                <p class="intro">Principal Approval Panel</p>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter active" data-status="Pending">Pending</button>
+                <button class="filter" data-status="Approved">Approved</button>
+                <button class="filter" data-status="Rejected">Rejected</button>
+            </div>
+
+            <div id="leaveContainer" class="leave-list">
+                <!-- Dynamically populated leaves -->
+            </div>
+            
+        </section>
+    </main>
+
+    <script src="js/principal-notifications.js"></script>
+</body>
+</html>
