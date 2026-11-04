@@ -30,6 +30,12 @@ app.use("/api", leaveApprovalRoutes);
 app.use("/api", availabilityRoutes);
 app.use("/api", timetableRoutes);
 
+app.get("/api/timetable/test", (req, res) => {
+    res.json({
+        message: "Timetable router is loaded successfully"
+    });
+});
+
 // Start server locally only
 if (require.main === module) {
     const PORT = process.env.PORT || 5000;
