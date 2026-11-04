@@ -10,39 +10,60 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/leave.js" defer></script>
 </head>
+
 <body>
 
     <nav class="navbar">
-    <a href="static/home.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
-        <h2>School Relief System</h2>
-    </a>
-</nav>
+        <a href="static/home.html"
+           style="text-decoration:none; color:inherit;">
+            <h2>School Relief System</h2>
+        </a>
+
+        <button type="button" id="logoutButton">
+            Logout
+        </button>
+    </nav>
 
     <main class="container">
+
         <section class="card">
+
             <h2>Teacher Leave Application</h2>
+
             <p class="intro">
-                Submit a leave request for the selected date.
+                Submit a leave request for the selected dates.
             </p>
 
-            <form id="leaveForm">
-    <label for="teacherId">Teacher ID</label>
-    <input type="text" id="teacherId" placeholder="Enter Teacher ID (e.g., T001)" required>
+            <!-- Logged-in employee details -->
+            <div id="employeeDetails">
+                Loading employee details...
+            </div>
 
-    <label for="startDate">Start Date</label>
-    <input type="date" id="startDate" required>
+            <form id="leaveForm" hidden>
 
-    <label for="endDate">End Date</label>
-    <input type="date" id="endDate" required>
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" required>
 
-    <label for="reason">Reason</label>
-    <textarea id="reason" rows="4" placeholder="Enter reason for leave (optional)"></textarea>
+                <label for="endDate">End Date</label>
+                <input type="date" id="endDate" required>
 
-    <button type="submit" id="submitButton">Submit Leave Request</button>
-</form>
+                <label for="reason">Reason</label>
+                <textarea
+                    id="reason"
+                    rows="4"
+                    placeholder="Enter reason for leave (optional)">
+                </textarea>
+
+                <button type="submit" id="submitButton">
+                    Submit Leave Request
+                </button>
+
+            </form>
 
             <p id="message" role="status" aria-live="polite"></p>
+
         </section>
+
     </main>
 
 </body>

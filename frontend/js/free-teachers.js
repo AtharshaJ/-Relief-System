@@ -147,12 +147,23 @@ function renderPeriods(periods, date) {
                     `Assigned: ${lesson.assigned_teacher ?? "None"}`
                 );
 
-                addText(
-                    lessonCard,
-                    "p",
-                    "",
-                    `Priority: ${lesson.priority}`
-                );
+              addText(
+    lessonCard,
+    "p",
+    "",
+    `Priority: ${lesson.priority}`
+);
+
+if (lesson.is_manual) {
+    const manualLabel = addText(
+        lessonCard,
+        "span",
+        "manual-assignment-label",
+        "Manually assigned by admin"
+    );
+
+    manualLabel.style.display = "inline-block";
+}
 
                 // Change Teacher button
                 const changeButton = document.createElement("button");
