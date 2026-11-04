@@ -7,6 +7,12 @@ const {
 
 const router = express.Router();
 
+router.get('/test', (req, res) => {
+    res.json({
+        message: "Timetable router is working"
+    });
+});
+
 // Keep the uploaded XML in memory.
 const upload = multer({
     storage: multer.memoryStorage(),
