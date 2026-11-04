@@ -28,7 +28,7 @@ const timetableRoutes = require("./routes/timetableRoutes");
 app.use("/api/absences", absenceRoutes);
 app.use("/api", leaveApprovalRoutes);
 app.use("/api", availabilityRoutes);
-app.use("/api", timetableRoutes);
+app.use("/api/timetable", timetableRoutes);
 
 app.get("/api/timetable/test", (req, res) => {
     res.json({
