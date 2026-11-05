@@ -24,8 +24,28 @@
             <p class="intro">
                 Submit a leave request for the selected date.
             </p>
+<form id="leaveForm">
 
-                   Submit Leave Registration
+    <label for="teacherId">Teacher ID</label>
+    <input
+        type="text"
+        id="teacherId"
+        placeholder="Enter Teacher ID (e.g., T001)"
+        required
+    >
+
+    <label for="startDate">Start Date</label>
+    <input type="date" id="startDate" required>
+
+    <label for="endDate">End Date</label>
+    <input type="date" id="endDate" required>
+
+    <button type="submit" id="submitButton">
+        Submit Leave Registration
+    </button>
+
+</form>
+                   
 
 
             <p id="message" role="status" aria-live="polite"></p>
