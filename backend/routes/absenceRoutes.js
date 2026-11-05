@@ -95,28 +95,33 @@ router.post("/", requireEmployeeLogin, async (req, res) => {
 
         // 6. Insert leave request with its selected type.
 
-        const result = await pool.query(
-            `INSERT INTO absences (
-                teacher_id,
-                name,
-                startdate,
-                enddate,
-                reason,
-                status,
-                leave_type
-            )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            RETURNING *`,
-            [
-                teacher.teacher_id,
-                teacher.name,
-                startDate,
-                endDate,
-                typeof reason === "string" ? reason.trim() || null : null,
-                "Pending",
-                leaveType
-            ]
-        );
+      `INSERT INTO absences (
+    employee_id,
+    teacher_id,
+    name,
+    startdate,
+    enddate,
+    reason,
+    status,
+    leave_type,
+    leave_days,
+    leave_usage_updated
+)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE)
+RETURNING *`,
+[
+    employee.id,
+    teacher.teacher_id,
+    teacher.name,
+    startDate,
+    endDate,
+    typeof reason === "string"
+        ? reason.trim() || null
+        : null,
+    "Pending",
+    leaveType,
+    requestedDays
+]
 
 
         // 7. Return successful response.
