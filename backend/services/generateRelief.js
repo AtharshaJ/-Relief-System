@@ -1,5 +1,6 @@
 const pool = require("../db");
 
+
 //converts javascript date object into date sting format yyyy-mm-dd
 function localDateString(date) {
     const year = date.getFullYear();
@@ -189,7 +190,7 @@ async function allocateSingleLesson(
     const absentResult = await pool.query(
         `SELECT DISTINCT teacher_id
          FROM absences
-         WHERE LOWER(status) = 'approved'
+         WHERE LOWER(TRIM(status)) IN ('approved', 'registered')
          AND startdate <= $1::date
          AND enddate >= $1::date`,
         [date]
@@ -315,8 +316,7 @@ async function allocateSingleLesson(
                 : "UNASSIGNED",
             priority
         ]
-    );
-}
+    );}
 
 module.exports = {
     generateReliefForAbsence

@@ -163,7 +163,7 @@ router.get("/availability/free-teachers", async (req, res) => {
                  SELECT 1
                  FROM absences a
                  WHERE a.teacher_id = f.teacher_id
-                 AND LOWER(a.status) = 'approved'
+AND LOWER(TRIM(a.status)) IN ('approved', 'registered')
                  AND a.startdate <= $3::date
                  AND a.enddate >= $3::date
              )
@@ -283,8 +283,8 @@ router.get("/availability/search-teachers", async (req, res) => {
                     WHEN EXISTS (
                         SELECT 1
                         FROM absences a
-                        WHERE a.teacher_id = tr.teacher_id
-                        AND LOWER(a.status) = 'approved'
+                       WHERE a.teacher_id = tr.teacher_id
+AND LOWER(TRIM(a.status)) IN ('approved', 'registered')
                         AND a.startdate <= $1::date
                         AND a.enddate >= $1::date
                     )

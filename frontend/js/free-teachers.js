@@ -4,6 +4,7 @@ const selectedDate = document.getElementById("selected-date");
 const periodList = document.getElementById("period-list");
 const message = document.getElementById("availability-message");
 const todayButton = document.getElementById("today-button");
+const downloadReportButton = document.getElementById("download-report-button");
 let teacherSearchRequestId = 0;
 
 let selectedDateValue = "";
@@ -364,6 +365,21 @@ function resetToToday() {
 }
 
 todayButton.addEventListener("click", resetToToday);
+
+// Download daily relief report
+downloadReportButton.addEventListener("click", () => {
+
+    if (!selectedDateValue) {
+        alert("Please select a date first.");
+        return;
+    }
+
+    const reportUrl =
+        `/api/daily-report?date=${encodeURIComponent(selectedDateValue)}`;
+
+    window.open(reportUrl, "_blank");
+});
+
 resetToToday();
 document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
