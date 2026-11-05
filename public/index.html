@@ -204,13 +204,13 @@
         ===================================== */
 
         .card-grid {
-            display: grid;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
 
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-
-            gap: 25px;
-        }
-
+    max-width: 850px;
+    margin: 0 auto;
+}
 
         /* =====================================
            5. NAVIGATION CARDS
@@ -222,11 +222,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-
-            min-height: 310px;
-
-            padding: 30px 27px;
-
+min-height: 290px;
+padding: 35px;
             background: var(--white);
 
             border: 1px solid var(--border);
@@ -358,16 +355,7 @@
         }
 
 
-        /* Principal card button distinction */
-
-        .principal-card .btn {
-            background: var(--navy);
-            box-shadow: 0 5px 13px rgba(20, 43, 69, 0.15);
-        }
-
-        .principal-card .btn:hover {
-            background: var(--navy-light);
-        }
+        
 
 
         /* =====================================
@@ -400,8 +388,9 @@
         @media (max-width: 900px) {
 
             .card-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
 
             .principal-card {
                 grid-column: 1 / -1;
@@ -442,9 +431,7 @@
                 gap: 18px;
             }
 
-            .principal-card {
-                grid-column: auto;
-            }
+            
 
             .nav-card {
                 min-height: 270px;
@@ -572,30 +559,9 @@
 
 
 
-            <!-- PRINCIPAL LOGIN CARD -->
+           
 
-            <div class="nav-card principal-card">
 
-                <div>
-
-                    <div class="card-icon">
-                        🛡️
-                    </div>
-
-                    <h3>Principal Login</h3>
-
-                    <p>
-                        Review leave applications, approve or reject
-                        requests, and oversee school-wide operations.
-                    </p>
-
-                </div>
-
-                <a href="principal-login.html" class="btn">
-                    Principal Login →
-                </a>
-
-            </div>
 
 
         </div>
