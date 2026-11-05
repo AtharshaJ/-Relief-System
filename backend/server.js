@@ -51,16 +51,65 @@ app.use(session({
 }));
 
 // =====================================
+
+// =====================================
 // AUTHENTICATION MIDDLEWARE
 // =====================================
 
 function requireEmployeeLogin(req, res, next) {
-
     if (!req.session || !req.session.employee) {
         return res.redirect("/login.html");
     }
 
     next();
+}
+
+// =====================================
+// PRINCIPAL AUTHENTICATION MIDDLEWARE
+// =====================================
+
+async function requirePrincipalLogin(req, res, next) {
+    try {
+        if (
+            !req.session ||
+            !req.session.employee ||
+            !req.session.principalAuthenticated
+        ) {
+            return res.redirect("/principal-login.html");
+        }
+
+        // Verify the account directly from the database.
+        const result = await pool.query(
+            `SELECT designation, is_active
+             FROM employees
+             WHERE id = $1`,
+            [req.session.employee.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.redirect("/principal-login.html");
+        }
+
+        const principal = result.rows[0];
+
+        if (
+            !principal.is_active ||
+            principal.designation.trim().toLowerCase() !== "principal"
+        ) {
+            return res.status(403).send(
+                "Access denied. Principal access only."
+            );
+        }
+
+        next();
+
+    } catch (error) {
+        console.error("Principal authentication error:", error);
+
+        return res.status(500).send(
+            "Unable to verify Principal access."
+        );
+    }
 }
 
 // =====================================
@@ -70,6 +119,20 @@ function requireEmployeeLogin(req, res, next) {
 app.get("/leave.html", requireEmployeeLogin, (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/leave.html"));
 });
+
+// =====================================
+// PROTECT PRINCIPAL DASHBOARD
+// =====================================
+
+app.get(
+    "/principal-notifications.html",
+    requirePrincipalLogin,
+    (req, res) => {
+        res.sendFile(
+            path.join(__dirname, "../frontend/principal-notifications.html")
+        );
+    }
+);
 
 // =====================================
 // SERVE FRONTEND FILES

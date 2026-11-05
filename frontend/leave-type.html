@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>School Relief System - Select Leave Type</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/leave-type.js" defer></script>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="static/home.html"
+           style="text-decoration:none; color:inherit;">
+            <h2>School Relief System</h2>
+        </a>
+
+        <button type="button" id="logoutButton">
+            Logout
+        </button>
+    </nav>
+
+    <main class="container">
+
+        <section class="card">
+
+            <h2>Select Leave Type</h2>
+
+            <p class="intro">
+                Please select the type of leave you wish to apply for.
+            </p>
+
+            <div id="employeeDetails">
+                Loading employee details...
+            </div>
+
+            <div class="leave-type-options">
+
+                <button
+                    type="button"
+                    class="leave-type-card"
+                    data-leave-type="medical">
+
+                    <span class="leave-icon">🏥</span>
+                    <strong>Medical Leave</strong>
+                    <span>Apply for leave due to illness or medical reasons.</span>
+
+                </button>
+
+                <button
+                    type="button"
+                    class="leave-type-card"
+                    data-leave-type="duty">
+
+                    <span class="leave-icon">💼</span>
+                    <strong>Duty Leave</strong>
+                    <span>Apply for leave related to official duties.</span>
+
+                </button>
+
+                <button
+                    type="button"
+                    class="leave-type-card"
+                    data-leave-type="casual">
+
+                    <span class="leave-icon">📅</span>
+                    <strong>Casual Leave</strong>
+                    <span>Apply for personal or other permitted casual leave.</span>
+
+                </button>
+
+            </div>
+
+            <p id="message" role="status" aria-live="polite"></p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>

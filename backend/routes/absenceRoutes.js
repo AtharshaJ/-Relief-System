@@ -24,9 +24,18 @@ function requireEmployeeLogin(req, res, next) {
 // URL: /api/absences
 // =====================================
 
+
 router.post("/", requireEmployeeLogin, async (req, res) => {
 
-    const { startDate, endDate, reason } = req.body;
+    const {
+        startDate,
+        endDate,
+        reason,
+        leaveType
+    } = req.body;
+
+
+    // 1. Validate required fields.
 
     if (!startDate || !endDate) {
         return res.status(400).json({
@@ -34,18 +43,40 @@ router.post("/", requireEmployeeLogin, async (req, res) => {
         });
     }
 
+
+    // 2. Validate leave type.
+
+    const validLeaveTypes = [
+        "medical",
+        "duty",
+        "casual"
+    ];
+
+    if (!validLeaveTypes.includes(leaveType)) {
+        return res.status(400).json({
+            error: "Please select a valid leave type."
+        });
+    }
+
+
+    // 3. Validate dates.
+
     if (endDate < startDate) {
         return res.status(400).json({
             error: "End date cannot be earlier than start date."
         });
     }
 
-    // Get the employee from the authenticated session.
+
+    // 4. Get employee from authenticated session.
+
     const employee = req.session.employee;
+
 
     try {
 
-        // 1. Find the teacher using the employee's timetable short name.
+        // 5. Find teacher using timetable short name.
+
         const teacherResult = await pool.query(
             `SELECT teacher_id, name
              FROM teachers
@@ -61,7 +92,9 @@ router.post("/", requireEmployeeLogin, async (req, res) => {
 
         const teacher = teacherResult.rows[0];
 
-        // 2. Insert the leave request into the existing absences table.
+
+        // 6. Insert leave request with its selected type.
+
         const result = await pool.query(
             `INSERT INTO absences (
                 teacher_id,
@@ -69,9 +102,10 @@ router.post("/", requireEmployeeLogin, async (req, res) => {
                 startdate,
                 enddate,
                 reason,
-                status
+                status,
+                leave_type
             )
-            VALUES ($1, $2, $3, $4, $5, $6)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *`,
             [
                 teacher.teacher_id,
@@ -79,14 +113,19 @@ router.post("/", requireEmployeeLogin, async (req, res) => {
                 startDate,
                 endDate,
                 typeof reason === "string" ? reason.trim() || null : null,
-                "Pending"
+                "Pending",
+                leaveType
             ]
         );
+
+
+        // 7. Return successful response.
 
         return res.status(201).json({
             message: "Leave submitted successfully!",
             absence: result.rows[0]
         });
+
 
     } catch (err) {
 

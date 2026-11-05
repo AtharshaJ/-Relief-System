@@ -11,7 +11,10 @@ const router = express.Router();
 // URL: /api/employees/register
 // =====================================
 
+
 router.post("/register", async (req, res) => {
+
+    let client;
 
     try {
 
@@ -23,6 +26,10 @@ router.post("/register", async (req, res) => {
             trId,
             contactNumber,
             shortName,
+            firstAppointmentDate,
+            dutyLeaveDays,
+            sickLeaveDays,
+            casualLeaveDays,
             username,
             password
         } = req.body;
@@ -36,6 +43,10 @@ router.post("/register", async (req, res) => {
             !trId ||
             !contactNumber ||
             !shortName ||
+            !firstAppointmentDate ||
+            dutyLeaveDays === undefined ||
+            sickLeaveDays === undefined ||
+            casualLeaveDays === undefined ||
             !username ||
             !password
         ) {
@@ -45,16 +56,16 @@ router.post("/register", async (req, res) => {
         }
 
 
-        // 3. Remove unnecessary spaces.
+        // 3. Clean employee details.
 
         const cleanDesignation = String(designation).trim();
 
         // Principal accounts must be authorised separately.
-if (cleanDesignation.toLowerCase() === "principal") {
-    return res.status(403).json({
-        error: "Principal accounts must be authorised by the system administrator."
-    });
-}
+        if (cleanDesignation.toLowerCase() === "principal") {
+            return res.status(403).json({
+                error: "Principal accounts must be authorised by the system administrator."
+            });
+        }
 
         const cleanFullName = String(fullName).trim();
         const cleanTrId = String(trId).trim();
@@ -79,45 +90,86 @@ if (cleanDesignation.toLowerCase() === "principal") {
         }
 
 
-        // 5. Validate username.
+        // 5. Validate first appointment date.
+
+        const appointmentDate = String(firstAppointmentDate).trim();
+
+        const parsedAppointmentDate = new Date(
+            appointmentDate + "T00:00:00Z"
+        );
+
+        if (
+            !/^\d{4}-\d{2}-\d{2}$/.test(appointmentDate) ||
+            Number.isNaN(parsedAppointmentDate.getTime()) ||
+            parsedAppointmentDate.toISOString().slice(0, 10) !== appointmentDate
+        ) {
+            return res.status(400).json({
+                error: "Please enter a valid first appointment date."
+            });
+        }
+
+
+        // 6. Validate initial 2026 leave usage.
+
+        const leaveDays = [
+            dutyLeaveDays,
+            sickLeaveDays,
+            casualLeaveDays
+        ];
+
+        if (
+            leaveDays.some(days =>
+                typeof days !== "number" ||
+                !Number.isFinite(days) ||
+                days < 0 ||
+                !Number.isInteger(days * 2)
+            )
+        ) {
+            return res.status(400).json({
+                error: "Leave days must be valid non-negative numbers in increments of 0.5."
+            });
+        }
+
+
+        // 7. Validate username.
 
         if (!/^[a-zA-Z0-9_.-]{4,50}$/.test(cleanUsername)) {
-
             return res.status(400).json({
                 error: "Username must be 4-50 characters and contain only letters, numbers, dots, underscores or hyphens."
             });
-
         }
 
 
-        // 6. Validate password.
+        // 8. Validate password.
 
         if (typeof password !== "string" || password.length < 8) {
-
             return res.status(400).json({
                 error: "Password must contain at least 8 characters."
             });
-
         }
 
-
         if (password.length > 72) {
-
             return res.status(400).json({
                 error: "Password is too long."
             });
-
         }
 
 
-        // 7. Hash the password.
+        // 9. Hash the password.
 
         const passwordHash = await bcrypt.hash(password, 12);
 
 
-        // 8. Insert the employee into PostgreSQL.
+        // 10. Start a database transaction.
 
-        const result = await pool.query(
+        client = await pool.connect();
+
+        await client.query("BEGIN");
+
+
+        // 11. Insert employee details.
+
+        const result = await client.query(
 
             `INSERT INTO employees (
                 tr_id,
@@ -126,9 +178,10 @@ if (cleanDesignation.toLowerCase() === "principal") {
                 designation,
                 contact_number,
                 username,
-                password_hash
+                password_hash,
+                first_appointment_date
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING
                 id,
                 tr_id,
@@ -137,6 +190,7 @@ if (cleanDesignation.toLowerCase() === "principal") {
                 designation,
                 contact_number,
                 username,
+                first_appointment_date,
                 is_active,
                 created_at`,
 
@@ -147,13 +201,48 @@ if (cleanDesignation.toLowerCase() === "principal") {
                 cleanDesignation,
                 cleanContactNumber,
                 cleanUsername,
-                passwordHash
+                passwordHash,
+                appointmentDate
             ]
 
         );
 
 
-        // 9. Registration successful.
+        // 12. Get the newly created employee ID.
+
+        const employeeId = result.rows[0].id;
+
+
+        // 13. Save initial leave usage for 2026.
+
+        await client.query(
+
+            `INSERT INTO employee_annual_leave_usage (
+                employee_id,
+                leave_year,
+                duty_leave_days,
+                sick_leave_days,
+                casual_leave_days
+            )
+            VALUES ($1, $2, $3, $4, $5)`,
+
+            [
+                employeeId,
+                2026,
+                dutyLeaveDays,
+                sickLeaveDays,
+                casualLeaveDays
+            ]
+
+        );
+
+
+        // 14. Commit both database operations.
+
+        await client.query("COMMIT");
+
+
+        // 15. Registration successful.
 
         return res.status(201).json({
 
@@ -166,6 +255,16 @@ if (cleanDesignation.toLowerCase() === "principal") {
 
     } catch (error) {
 
+        // Undo database changes if anything failed.
+
+        if (client) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error("Registration rollback error:", rollbackError);
+            }
+        }
+
         console.error("Employee registration error:", error);
 
 
@@ -174,27 +273,21 @@ if (cleanDesignation.toLowerCase() === "principal") {
         if (error.code === "23505") {
 
             if (error.constraint === "employees_tr_id_unique") {
-
                 return res.status(409).json({
                     error: "This official employee ID is already registered."
                 });
-
             }
 
             if (error.constraint === "employees_short_name_unique") {
-
                 return res.status(409).json({
                     error: "This timetable short name is already registered."
                 });
-
             }
 
             if (error.constraint === "employees_username_unique") {
-
                 return res.status(409).json({
                     error: "This username is already taken."
                 });
-
             }
 
             return res.status(409).json({
@@ -207,6 +300,14 @@ if (cleanDesignation.toLowerCase() === "principal") {
         return res.status(500).json({
             error: "Registration failed. Please try again."
         });
+
+    } finally {
+
+        // Always release the database connection.
+
+        if (client) {
+            client.release();
+        }
 
     }
 
@@ -459,6 +560,8 @@ router.post("/principal-login", async (req, res) => {
                 designation: principal.designation,
                 username: principal.username
             };
+
+            req.session.principalAuthenticated = true;
 
             req.session.save((saveError) => {
 

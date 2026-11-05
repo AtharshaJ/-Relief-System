@@ -100,26 +100,42 @@ employeeForm.addEventListener("submit", async (event) => {
     }
 
     // Collect employee details.
-    const employeeData = {
+   
+// Collect employee details.
+const employeeData = {
 
-        designation: selectedDesignation,
+    designation: selectedDesignation,
 
-        fullName: document.getElementById("fullName").value.trim(),
+    fullName: document.getElementById("fullName").value.trim(),
 
-        trId: document.getElementById("trId").value.trim(),
+    trId: document.getElementById("trId").value.trim(),
 
-        contactNumber:
-            document.getElementById("contactNumber").value.trim(),
+    contactNumber:
+        document.getElementById("contactNumber").value.trim(),
 
-        shortName:
-            document.getElementById("shortName").value.trim(),
+    shortName:
+        document.getElementById("shortName").value.trim(),
 
-        username:
-            document.getElementById("username").value.trim(),
+    // Employment information
+    firstAppointmentDate:
+        document.getElementById("firstAppointmentDate").value,
 
-        password: passwordInput.value
+    // Initial annual leave usage for 2026
+    dutyLeaveDays:
+        Number(document.getElementById("dutyLeaveDays").value),
 
-    };
+    sickLeaveDays:
+        Number(document.getElementById("sickLeaveDays").value),
+
+    casualLeaveDays:
+        Number(document.getElementById("casualLeaveDays").value),
+
+    username:
+        document.getElementById("username").value.trim(),
+
+    password: passwordInput.value
+
+};
 
     try {
 

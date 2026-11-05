@@ -38,7 +38,7 @@ loginForm.addEventListener("submit", async (event) => {
         message.style.color = "green";
         message.textContent = "Login successful! Redirecting...";
 
-        window.location.href = "/leave.html";
+        window.location.href = "/leave-type.html";
 
     } catch (error) {
 
