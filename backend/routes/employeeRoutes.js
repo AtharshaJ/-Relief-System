@@ -48,6 +48,14 @@ router.post("/register", async (req, res) => {
         // 3. Remove unnecessary spaces.
 
         const cleanDesignation = String(designation).trim();
+
+        // Principal accounts must be authorised separately.
+if (cleanDesignation.toLowerCase() === "principal") {
+    return res.status(403).json({
+        error: "Principal accounts must be authorised by the system administrator."
+    });
+}
+
         const cleanFullName = String(fullName).trim();
         const cleanTrId = String(trId).trim();
         const cleanContactNumber = String(contactNumber).trim();
@@ -368,6 +376,118 @@ router.post("/logout", (req, res) => {
         });
 
     });
+
+});
+
+// =====================================
+// POST: PRINCIPAL LOGIN
+// URL: /api/employees/principal-login
+// =====================================
+
+router.post("/principal-login", async (req, res) => {
+
+    try {
+
+        const { username, password } = req.body;
+
+        if (!username || !password) {
+            return res.status(400).json({
+                error: "Please enter your username and password."
+            });
+        }
+
+        // Find the account in the employee database.
+        const result = await pool.query(
+            `SELECT
+                id,
+                tr_id,
+                full_name,
+                designation,
+                username,
+                password_hash,
+                is_active
+             FROM employees
+             WHERE LOWER(TRIM(username)) = LOWER(TRIM($1))`,
+            [username]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({
+                error: "Invalid username or password."
+            });
+        }
+
+        const principal = result.rows[0];
+
+        // Verify Principal designation.
+        if (
+            !principal.is_active ||
+            principal.designation.trim().toLowerCase() !== "principal"
+        ) {
+            return res.status(403).json({
+                error: "Access denied. Principal account only."
+            });
+        }
+
+        // Verify password.
+        const passwordMatches = await bcrypt.compare(
+            password,
+            principal.password_hash
+        );
+
+        if (!passwordMatches) {
+            return res.status(401).json({
+                error: "Invalid username or password."
+            });
+        }
+
+        // Create a fresh session.
+        req.session.regenerate((error) => {
+
+            if (error) {
+                console.error("Principal session error:", error);
+
+                return res.status(500).json({
+                    error: "Unable to create Principal session."
+                });
+            }
+
+            req.session.employee = {
+                id: principal.id,
+                tr_id: principal.tr_id,
+                full_name: principal.full_name,
+                designation: principal.designation,
+                username: principal.username
+            };
+
+            req.session.save((saveError) => {
+
+                if (saveError) {
+                    console.error("Principal session save error:", saveError);
+
+                    return res.status(500).json({
+                        error: "Unable to save Principal session."
+                    });
+                }
+
+                return res.json({
+                    message: "Principal login successful!",
+                    employee: req.session.employee
+                });
+
+            });
+
+        });
+
+    } catch (error) {
+
+        console.error("Principal login error:", error);
+
+        return res.status(500).json({
+            error: "Principal login failed. Please try again."
+        });
+
+    }
 
 });
 
