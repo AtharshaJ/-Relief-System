@@ -23,12 +23,14 @@ const absenceRoutes = require("./routes/absenceRoutes");
 const leaveApprovalRoutes = require("./routes/leaveApproval");
 const availabilityRoutes = require("./routes/availability");
 const timetableRoutes = require("./routes/timetableRoutes");
+const dailyReportRoutes = require("./routes/dailyReport");
 
 // Mount routes
 app.use("/api/absences", absenceRoutes);
 app.use("/api", leaveApprovalRoutes);
 app.use("/api", availabilityRoutes);
 app.use("/api/timetable", timetableRoutes);
+app.use("/api", dailyReportRoutes);
 
 app.get("/api/timetable/test", (req, res) => {
     res.json({

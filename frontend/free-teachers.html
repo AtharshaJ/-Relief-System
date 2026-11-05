@@ -26,13 +26,19 @@
 
         <section class="availability-panel">
             <div class="date-heading">
-                <div>
-                    <h2 id="selected-day">Loading date...</h2>
-                    <p id="selected-date"></p>
-                </div>
-                <button id="today-button" type="button">Today</button>
-            </div>
+    <div>
+        <h2 id="selected-day">Loading date...</h2>
+        <p id="selected-date"></p>
+    </div>
 
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button id="today-button" type="button">Today</button>
+
+        <button id="download-report-button" type="button">
+            Download Daily PDF
+        </button>
+    </div>
+</div>
             <nav id="workday-navigation" class="workday-navigation" aria-label="Choose a working day">
                 <!-- Dynamically populated 5 workdays -->
             </nav>
