@@ -79,28 +79,27 @@ passwordInput.addEventListener("input", () => {
 // 3. HANDLE FORM SUBMISSION
 // =====================================
 
-employeeForm.addEventListener("submit", (event) => {
+
+// =====================================
+// 3. HANDLE FORM SUBMISSION
+// =====================================
+
+employeeForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
     formMessage.textContent = "";
 
-
     // Check that both passwords match.
-
     if (passwordInput.value !== confirmPasswordInput.value) {
 
         formMessage.textContent = "Passwords do not match.";
-
         confirmPasswordInput.focus();
-
         return;
 
     }
 
-
     // Collect employee details.
-
     const employeeData = {
 
         designation: selectedDesignation,
@@ -112,8 +111,6 @@ employeeForm.addEventListener("submit", (event) => {
         contactNumber:
             document.getElementById("contactNumber").value.trim(),
 
-        
-
         shortName:
             document.getElementById("shortName").value.trim(),
 
@@ -124,20 +121,55 @@ employeeForm.addEventListener("submit", (event) => {
 
     };
 
+    try {
 
-    // Temporary test output.
-    // We will connect this form to PostgreSQL through
-    // the backend in the next stage.
+        formMessage.style.color = "#087477";
+        formMessage.textContent = "Creating your account...";
 
-    console.log("Employee registration details:", {
-        ...employeeData,
-        password: "[HIDDEN]"
-    });
+        const response = await fetch("/api/employees/register", {
 
+            method: "POST",
 
-    formMessage.style.color = "#087477";
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    formMessage.textContent =
-        "Form validation successful! Backend registration is the next step.";
+            credentials: "same-origin",
+
+            body: JSON.stringify(employeeData)
+
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error || "Registration failed."
+            );
+
+        }
+
+        formMessage.style.color = "#087477";
+
+        formMessage.textContent =
+            "Account created successfully! Redirecting to login...";
+
+        employeeForm.reset();
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 2000);
+
+    } catch (error) {
+
+        console.error("Registration error:", error);
+
+        formMessage.style.color = "#c0392b";
+
+        formMessage.textContent = error.message;
+
+    }
 
 });
+
