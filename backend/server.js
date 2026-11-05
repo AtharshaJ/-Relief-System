@@ -9,12 +9,13 @@ app.use(cors());
 app.use(express.json());
 
 // Serve frontend files
-app.use(express.static(path.join(__dirname, "../frontend")));
+// Serve frontend files from public
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Home page
 app.get("/", (req, res) => {
     res.sendFile(
-        path.join(__dirname, "../frontend/static/home.html")
+        path.join(__dirname, "../public/static/home.html")
     );
 });
 
