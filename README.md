@@ -1,221 +1,231 @@
+# 🏫 School Relief Management System
 
-# School Relief System
+A web-based application designed to simplify teacher leave registration and automate relief allocation in schools.
 
-A web-based application designed to help schools manage teacher information, record teacher absences, and organize relief-teacher allocations efficiently.
+The **School Relief Management System** helps school administrators manage teacher absences, identify available teachers and allocate relief periods efficiently using timetable information.
 
-## About the Project
+The system aims to reduce manual administrative work, improve the accuracy of relief allocation and make daily school operations more efficient.
 
-Managing teacher absences and arranging suitable relief teachers can be time-consuming when handled manually. The School Relief System aims to simplify this process by providing a centralized platform for managing teacher records, maintaining timetable information, recording absences, and suggesting suitable relief teachers.
+---
 
-The system is designed for use by a school administrator or ICT teacher, who can review and approve suggested relief allocations.
+## 🚀 Key Features
 
-## Objectives
+### 1. Teacher Leave Registration
+- Register teacher absences using their teacher ID.
+- Select leave start and end dates.
+- Validate teacher information against the school database.
+- Automatically save leave records.
 
-- Maintain a centralized database of school teachers.
-- Manage teacher timetable information.
-- Record teacher absences and leave.
-- Identify available teachers for relief assignments.
-- Suggest suitable relief teachers based on timetable availability and subject assignments.
-- Allow the administrator to review and approve relief allocations.
-- Reduce timetable conflicts and manual administrative work.
+### 2. Automatic Relief Allocation
+- Generate relief allocations immediately after leave registration.
+- Identify classes and periods affected by teacher absences.
+- Find available teachers using their free-period information.
+- Generate relief allocations based on timetable data.
+- Avoid assigning teachers who are already occupied.
 
-## Technology Stack
+### 3. Teacher Availability Management
+- View teacher availability for upcoming school days.
+- Identify teachers who are free during specific periods.
+- View existing relief assignments.
+- Manually reassign relief teachers when necessary.
 
-| Technology | Purpose |
+### 4. Timetable Management
+- Store and manage school timetable information.
+- Maintain teacher, class, subject and period details.
+- Import timetable information for relief allocation.
+
+### 5. Daily Relief Reports
+- View daily relief allocations.
+- Identify absent teachers and their assigned relief teachers.
+- Access relief information for daily school administration.
+
+### 6. Shared-Password Authentication
+- Provide access to protected system operations through a shared school password.
+- Allow staff to access the system from different devices.
+- Keep public information accessible without login.
+- Protect operations that modify system data using session-based authentication.
+
+---
+
+## ⚙️ System Workflow
+
+The system follows an immediate leave-registration workflow.
+
+1. A teacher accesses the School Relief System.
+2. The teacher enters their teacher ID and leave dates.
+3. The system validates the teacher's information.
+4. The leave record is registered in the database.
+5. The relief generation process starts automatically.
+6. The system identifies affected classes and periods.
+7. Available teachers are identified using timetable and free-period information.
+8. Relief allocations are generated and made available for viewing.
+
+**Note:** The current version does not require principal approval before registering leave or generating relief allocations.
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
 |---|---|
-| HTML5 | Structure of the web pages |
-| CSS3 | Styling and responsive layouts |
-| JavaScript | Frontend functionality and API requests |
-| Node.js | Backend runtime environment |
-| Express.js | Backend API and request handling |
-| PostgreSQL | Relational database |
-| pg | PostgreSQL connectivity for Node.js |
-| dotenv | Environment configuration |
-| Nodemon | Automatic backend restarts during development |
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js |
+| Backend Framework | Express.js |
+| Database | PostgreSQL |
+| Database Hosting | Supabase |
+| Application Hosting | Vercel |
+| Authentication | Express Session |
+| Session Storage | PostgreSQL |
+| Version Control | Git and GitHub |
 
-## Current Features
+---
 
-### Teacher Management
+## 🗄️ Database Structure
 
-- Add new teacher records.
-- View registered teachers.
-- Edit existing teacher details.
-- Delete teacher records.
-- Search teachers by employee ID, name, or contact number.
-- Prevent duplicate employee IDs.
+The main database tables include:
 
-Teacher records include:
-- Employee ID
-- Full name
-- Contact number
+| Table | Purpose |
+|---|---|
+| `teachers` | Stores teacher information. |
+| `timetable` | Stores class timetable information. |
+| `freeperiods` | Stores teachers' free periods. |
+| `teacher_class` | Maintains teacher and class relationships. |
+| `absences` | Stores teacher leave records. |
+| `relief_allocations` | Stores automatic and manual relief allocations. |
+| `user_sessions` | Stores authenticated user sessions. |
 
-## Planned Features
+---
 
-- **Timetable Management:** Maintain teacher assignments, subjects, classes, days, and periods.
-- **Absence and Leave Management:** Record teacher absences for relevant dates and periods.
-- **Relief Teacher Suggestions:** Identify suitable teachers based on their scheduled lessons, availability, and subject assignments.
-- **Relief Schedule Management:** Allow the administrator to review, modify, approve, and manage suggested allocations.
-- **Timetable System Integration:** Investigate integration with the school's existing ASC timetable system.
-- **Conflict Prevention:** Prevent a teacher from being assigned to multiple classes during the same period.
-
-## Project Structure
+## 📁 Project Structure
 
 ```text
-school-relief-system/
-├── public/
-│   ├── teachers.html
-│   ├── style.css
-│   └── teachers.js
+School-Relief-System/
+│
 ├── backend/
+│   ├── middleware/
 │   ├── routes/
-│   │   └── teachers.js
+│   ├── services/
 │   ├── db.js
-│   ├── server.js
-│   ├── package.json
-│   └── .env
-├── .gitignore
+│   └── server.js
+│
+├── public/
+│   ├── static/
+│   ├── css/
+│   └── js/
+│
+├── frontend/
+│
+├── server.js
+├── package.json
+├── package-lock.json
+├── vercel.json
+├── code.sql
 └── README.md
 ```
 
-## Prerequisites
+---
 
-Make sure the following are installed:
+## 💻 Installation and Setup
+
+### Prerequisites
+
+Before running the application locally, ensure that you have:
 
 - [Node.js](https://nodejs.org/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Visual Studio Code](https://code.visualstudio.com/) (recommended)
+- npm
+- A PostgreSQL database
+- Git
 
-## Installation and Setup
-
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd school-relief-system
+git clone https://github.com/AtharshaJ/-Relief-System.git
 ```
 
-Replace the placeholder with your actual GitHub repository URL.
-
-### 2. Install Backend Dependencies
+### 2. Navigate to the project directory
 
 ```bash
-cd backend
+cd -Relief-System
+```
+
+### 3. Install dependencies
+
+```bash
 npm install
 ```
 
-If the project does not yet include the required dependencies, install them with:
+### 4. Configure environment variables
 
-```bash
-npm install express pg dotenv
-npm install --save-dev nodemon
-```
-
-### 3. Create the PostgreSQL Database
-
-Create a PostgreSQL database named:
-
-```text
-school_relief_db
-```
-
-Run the following SQL in the database's query tool:
-
-```sql
-CREATE TABLE teachers (
-    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    employee_id VARCHAR(50) UNIQUE NOT NULL,
-    full_name VARCHAR(150) NOT NULL,
-    contact_number VARCHAR(30) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### 4. Configure Environment Variables
-
-Create a `.env` file inside the `backend` directory:
+Create a `.env` file in the project root directory.
 
 ```env
-PORT=5000
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=school_relief_db
-DB_USER=postgres
-DB_PASSWORD=YOUR_POSTGRES_PASSWORD
+DATABASE_URL=your_postgresql_connection_string
+SESSION_SECRET=your_secure_session_secret
 ```
 
-Replace `YOUR_POSTGRES_PASSWORD` with your PostgreSQL user's password.
+Also configure the shared school password using the environment variable expected by the authentication implementation.
 
-**Security:** Never commit your `.env` file or database credentials to GitHub.
+**Important:** Never commit your `.env` file, database credentials, passwords or secret keys to GitHub.
 
-### 5. Start the Backend Server
-
-From the `backend` directory, run:
+### 5. Run the application
 
 ```bash
-npm run dev
+npm start
 ```
 
-The server should start at:
+The application will run on the port configured in the backend.
 
-```text
+---
 
-```
+## ☁️ Deployment
 
-### 6. Open the Application
+The application uses the following services:
 
-Once the backend is running, open:
+- **Vercel:** Hosts the web application and backend.
+- **Supabase:** Provides the hosted PostgreSQL database.
+- **GitHub:** Stores the source code and supports version control.
 
-- **Teacher Management:** /teachers.html
-- **Database Health Check:** /api/health
-- **Teacher API:** /api/teachers
+The required environment variables must be configured in the Vercel project settings.
 
-The health-check endpoint can be used to verify that the backend can communicate with PostgreSQL.
+---
 
-## API Endpoints
+## 🔐 Security
 
-The backend provides the following teacher-management endpoints:
+- Protected operations require authentication.
+- Session information is stored in PostgreSQL.
+- HTTP-only session cookies are used.
+- Secure cookies are enabled in production.
+- Sensitive configuration values are maintained through environment variables.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/teachers` | Retrieve all teachers |
-| POST | `/api/teachers` | Add a teacher |
-| PUT | `/api/teachers/:id` | Update a teacher |
-| DELETE | `/api/teachers/:id` | Delete a teacher |
-| GET | `/api/health` | Check server and database connectivity |
+---
 
-### Example: Add a Teacher
+## 📌 Current Version Scope
 
-Send a `POST` request to `/api/teachers` with a JSON body:
+The current version focuses on simplifying teacher leave registration and relief allocation.
 
-```json
-{
-  "employee_id": "T001",
-  "full_name": "Example Teacher",
-  "contact_number": "0771234567"
-}
-```
+The following features are not included in this version:
 
-## Development Notes
+- Individual employee registration and login.
+- Principal account management.
+- Principal leave approval and rejection.
+- Annual leave balance tracking and calculations.
 
-- The initial version focuses on teacher management.
-- Timetable management, absence recording, and relief allocation are planned for subsequent development stages.
-- The backend API and frontend must be connected for teacher operations to persist in PostgreSQL.
-- Timetable data will be managed independently initially, while future ASC integration options are investigated.
-- Teacher deletion will need to account for related timetable and relief records as those features are implemented.
+---
 
-## Future Improvements
+## 🎯 Project Objective
 
-- Authentication and role-based access control.
-- Importing timetable data from supported school systems.
-- Automated relief-teacher recommendations.
-- Relief workload balancing.
-- Improved reporting and schedule exports.
-- Deployment for secure access within the school.
+The main objective of the School Relief Management System is to provide a practical digital solution for managing teacher absences and relief allocation in schools.
 
-## Contributing
+By automating relief generation using timetable and teacher availability information, the system aims to reduce administrative workload and improve the efficiency of daily school operations.
 
-This project is under active development. Suggestions, bug reports, and contributions are welcome.
+---
 
-## License
+## 👩‍💻 Developer
 
-No license has been specified yet. Add an appropriate open-source license before allowing others to reuse or redistribute the project.
+**Atharsha Jeyakanthan**
+
+GitHub: [AtharshaJ](https://github.com/AtharshaJ)
+
+---
+
+*Developed to address a practical challenge in school administration through software engineering and automation.*
