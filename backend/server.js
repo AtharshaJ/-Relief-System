@@ -36,8 +36,8 @@ app.use(express.static(
 app.use(session({
     store: new pgSession({
         pool: pool,
-        tableName: "school_auth_sessions",
-        createTableIfMissing: false
+        tableName: "user_sessions",
+        createTableIfMissing: true
     }),
 
     name: "school.sid",
