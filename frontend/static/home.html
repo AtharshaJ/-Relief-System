@@ -122,6 +122,44 @@
             margin: auto;
         }
 
+        /* STAFF LOGIN CONTROL */
+
+.auth-control {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    z-index: 5;
+}
+
+.auth-control a,
+.auth-control button {
+    display: inline-block;
+    padding: 10px 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.auth-control a:hover,
+.auth-control button:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.auth-status {
+    margin-right: 10px;
+    color: #C8EBE7;
+    font-size: 13px;
+}
+
         .hero-label {
             display: inline-block;
 
@@ -474,7 +512,13 @@ padding: 35px;
 
     <header>
 
-        <div class="hero-content">
+    <div class="auth-control">
+        <span id="authStatus" class="auth-status">Checking...</span>
+        <a id="loginLink" href="../login.html">Staff Login</a>
+        <button id="logoutButton" hidden>Logout</button>
+    </div>
+
+    <div class="hero-content">
 
             <div class="hero-label">
                 School Administration Portal
@@ -582,7 +626,70 @@ padding: 35px;
         </p>
 
     </footer>
+<script>
 
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const authStatus = document.getElementById("authStatus");
+    const loginLink = document.getElementById("loginLink");
+    const logoutButton = document.getElementById("logoutButton");
+
+    try {
+
+        const response = await fetch("/api/auth/session", {
+            credentials: "same-origin"
+        });
+
+        const data = await response.json();
+
+        if (data.authenticated) {
+
+            authStatus.textContent = "Staff logged in";
+
+            loginLink.hidden = true;
+            logoutButton.hidden = false;
+
+        } else {
+
+            authStatus.textContent = "";
+
+            loginLink.hidden = false;
+            logoutButton.hidden = true;
+        }
+
+    } catch (error) {
+
+        authStatus.textContent = "Login status unavailable";
+        loginLink.hidden = false;
+        logoutButton.hidden = true;
+
+        console.error("Session check failed:", error);
+    }
+
+    logoutButton.addEventListener("click", async () => {
+
+        try {
+
+            const response = await fetch("/api/auth/logout", {
+                method: "POST",
+                credentials: "same-origin"
+            });
+
+            if (!response.ok) {
+                throw new Error("Logout failed.");
+            }
+
+            window.location.reload();
+
+        } catch (error) {
+
+            alert(error.message);
+        }
+    });
+
+});
+
+</script>
 
 </body>
 

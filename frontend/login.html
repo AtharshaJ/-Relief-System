@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Login | School Relief System</title>
+
+    <style>
+        :root {
+            --navy: #142B45;
+            --navy-light: #1B405B;
+            --teal: #0F8B8D;
+            --teal-dark: #087477;
+            --background: #F5F7F8;
+            --white: #FFFFFF;
+            --text: #263746;
+            --muted: #718096;
+            --border: #E1E8ED;
+            --danger: #D64545;
+            --success: #16865A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        header {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                120deg,
+                var(--navy),
+                var(--navy-light),
+                #176B70
+            );
+            color: white;
+            padding: 55px 20px 90px;
+            text-align: center;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            top: -130px;
+            right: -60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            bottom: -120px;
+            left: -50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 7px 16px;
+            margin-bottom: 17px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #C8EBE7;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: #D9E7ED;
+            line-height: 1.6;
+        }
+
+        main {
+            width: 100%;
+            max-width: 470px;
+            margin: -45px auto 50px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .login-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 35px;
+            box-shadow: 0 12px 35px rgba(20, 43, 69, 0.08);
+        }
+
+        .lock-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 17px;
+            background: #EAF5F5;
+            font-size: 30px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .description {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 85px 14px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(15, 139, 141, 0.12);
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            color: var(--teal-dark);
+            font-weight: 700;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .login-button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: var(--teal);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .login-button:hover {
+            background: var(--teal-dark);
+            transform: translateY(-2px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+            margin-top: 17px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            background: #FFF0F0;
+            color: var(--danger);
+        }
+
+        .message.success {
+            display: block;
+            background: #EAF7F0;
+            color: var(--success);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 23px;
+            text-align: center;
+            color: var(--teal-dark);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            padding: 22px 15px;
+            text-align: center;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            .login-card {
+                padding: 27px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="hero-content">
+            <div class="hero-label">School Administration Portal</div>
+
+            <h1>🏫 School Relief System</h1>
+
+            <p>Secure staff access</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-card">
+
+            <div class="lock-icon">🔐</div>
+
+            <h2>Staff Login</h2>
+
+            <p class="description">
+                Enter the shared school password to access
+                protected system operations.
+            </p>
+
+            <form id="loginForm">
+
+                <label for="password">School Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter school password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                    >
+                        Show
+                    </button>
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+                    Log In
+                </button>
+
+                <div
+                    id="message"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+                ></div>
+
+            </form>
+
+            <a href="/" class="back-link">
+                ← Back to Home
+            </a>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 School Relief System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+        const loginButton = document.getElementById("loginButton");
+        const message = document.getElementById("message");
+
+        // Show or hide password
+        togglePassword.addEventListener("click", () => {
+            const isHidden = passwordInput.type === "password";
+
+            passwordInput.type = isHidden ? "text" : "password";
+            togglePassword.textContent = isHidden ? "Hide" : "Show";
+        });
+
+        // Handle login form
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const password = passwordInput.value;
+
+            message.className = "message";
+            message.textContent = "";
+
+            loginButton.disabled = true;
+            loginButton.textContent = "Checking...";
+
+            try {
+                const response = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.error || "Login failed. Please try again."
+                    );
+                }
+
+                message.textContent = "Login successful! Redirecting...";
+                message.className = "message success";
+
+                // Return to the page the user originally wanted.
+                const params = new URLSearchParams(window.location.search);
+                const requestedPage = params.get("returnTo");
+
+                const safePage =
+                    requestedPage &&
+                    requestedPage.startsWith("/") &&
+                    !requestedPage.startsWith("//") &&
+                    !requestedPage.startsWith("/login")
+                        ? requestedPage
+                        : "/";
+
+                window.location.replace(safePage);
+
+            } catch (error) {
+                message.textContent = error.message;
+                message.className = "message error";
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = "Log In";
+            }
+        });
+    </script>
+
+</body>
+</html>

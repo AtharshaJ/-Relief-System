@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db");
+const { requireLogin } = require("../middleware/authMiddleware");
 
 // GET availability and relief assignments for a selected date
 router.get("/availability", async (req, res) => {
@@ -360,7 +361,7 @@ AND LOWER(TRIM(a.status)) IN ('approved', 'registered')
 });
 
 // MANUALLY UPDATE A RELIEF TEACHER
-router.put("/availability/assign", async (req, res) => {
+router.put("/availability/assign", requireLogin, async (req, res) => {
     try {
         const { allocationId, teacherId } = req.body;
 

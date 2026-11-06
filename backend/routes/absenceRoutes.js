@@ -2,11 +2,12 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../db");
+const { requireLogin } = require("../middleware/authMiddleware");
 
 const { generateReliefForAbsence } =
     require("../services/generateRelief");
 
-router.post("/", async (req, res) => {
+router.post("/", requireLogin, async (req, res) => {
 
     const { teacherId, startDate, endDate } = req.body;
 

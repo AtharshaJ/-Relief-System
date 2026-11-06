@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const { requireLogin } = require('../middleware/authMiddleware');
 
 const {
     importTimetableXML
@@ -31,7 +32,7 @@ const upload = multer({
 });
 
 // POST /api/timetable/import
-router.post('/import', (req, res, next) => {
+router.post('/import', requireLogin, (req, res, next) => {
     upload.single('timetable')(req, res, async error => {
         if (error) {
             return res.status(400).json({
